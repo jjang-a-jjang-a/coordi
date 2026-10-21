@@ -1,0 +1,1406 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>나를 살리는 코디 랩 (Coordi Lab)</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Jua&family=Noto+Sans+KR:wght@400;500;700;800&display=swap" rel="stylesheet">
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#fff5f5',
+                            100: '#ffe3e3',
+                            500: '#ff6b6b',
+                            600: '#fa5252',
+                            700: '#e03131',
+                        },
+                        accent: {
+                            50: '#f3f0ff',
+                            100: '#e5dbff',
+                            500: '#7950f2',
+                            600: '#6741d9',
+                        }
+                    },
+                    fontFamily: {
+                        jua: ['Jua', 'sans-serif'],
+                        sans: ['Noto Sans KR', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            background-color: #f8f9fa;
+            color: #343a40;
+            user-select: none;
+        }
+        .font-jua { font-family: 'Jua', sans-serif; }
+        
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: #f1f1f1; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+
+        /* Animation Utilities */
+        .animate-fade-in { animation: fadeIn 0.3s ease-in-out; }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(6px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .meter-bar {
+            transition: width 0.4s ease-out, background-color 0.3s;
+        }
+
+        .tab-btn.active {
+            background-color: #7950f2;
+            color: white;
+            font-weight: 700;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col bg-slate-50 text-slate-800 antialiased">
+
+    <!-- Header -->
+    <header class="bg-white border-b border-slate-200 sticky top-0 z-40 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
+            <div class="flex items-center gap-2 cursor-pointer" onclick="goToStep(1)">
+                <span class="text-2xl">✨</span>
+                <h1 class="font-jua text-2xl text-slate-800 tracking-wide">나를 살리는 코디 랩</h1>
+            </div>
+            <div id="step-indicator" class="hidden md:flex items-center gap-1 text-xs font-medium text-slate-500">
+                <span class="step-tag px-2.5 py-1 rounded-full bg-slate-100">1. 시작</span> &gt;
+                <span class="step-tag px-2.5 py-1 rounded-full bg-slate-100">2. 아바타</span> &gt;
+                <span class="step-tag px-2.5 py-1 rounded-full bg-slate-100">3. 색 관찰</span> &gt;
+                <span class="step-tag px-2.5 py-1 rounded-full bg-slate-100">4. 연출 목표</span> &gt;
+                <span class="step-tag px-2.5 py-1 rounded-full bg-slate-100">5. 코디하기</span> &gt;
+                <span class="step-tag px-2.5 py-1 rounded-full bg-slate-100">6. 결과카드</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="flex-1 max-w-7xl w-full mx-auto p-4 md:p-6 flex flex-col justify-center">
+
+        <!-- ================= STEP 1: START SCREEN ================= -->
+        <section id="step-1" class="step-page max-w-3xl mx-auto w-full bg-white rounded-3xl p-6 md:p-10 shadow-xl border border-slate-100 text-center animate-fade-in">
+            <div class="inline-block p-4 bg-brand-50 rounded-2xl mb-4">
+                <span class="text-5xl">👗👕</span>
+            </div>
+            <h2 class="font-jua text-3xl md:text-4xl text-slate-800 mb-3">몸을 고치는 게 아니라,<br><span class="text-brand-500">옷의 효과를 알고 나를 표현하는 것!</span></h2>
+            <p class="text-slate-600 text-base md:text-lg mb-8 leading-relaxed">
+                나만의 아바타를 만들고 다양한 의복 디자인 요소(선·색·무늬·재질·실루엣)와 착시 효과를 활용해<br class="hidden sm:inline">
+                내가 연출하고 싶은 최상의 스타일을 직접 찾아보세요.
+            </p>
+
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-3 text-left mb-8">
+                <div class="bg-slate-50 p-4 rounded-2xl border border-slate-100">
+                    <span class="text-xs font-bold text-brand-500 block mb-1">STEP 1</span>
+                    <h3 class="font-bold text-slate-700 text-sm">나의 아바타 설정</h3>
+                    <p class="text-xs text-slate-500 mt-1">얼굴형, 피부톤, 체형 연출하기</p>
+                </div>
+                <div class="bg-slate-50 p-4 rounded-2xl border border-slate-100">
+                    <span class="text-xs font-bold text-brand-500 block mb-1">STEP 2</span>
+                    <h3 class="font-bold text-slate-700 text-sm">색 대어 보기</h3>
+                    <p class="text-xs text-slate-500 mt-1">인상 차이 스스로 관찰하기</p>
+                </div>
+                <div class="bg-slate-50 p-4 rounded-2xl border border-slate-100">
+                    <span class="text-xs font-bold text-brand-500 block mb-1">STEP 3</span>
+                    <h3 class="font-bold text-slate-700 text-sm">연출 목표 선택</h3>
+                    <p class="text-xs text-slate-500 mt-1">내가 원하는 이미지 설정하기</p>
+                </div>
+                <div class="bg-slate-50 p-4 rounded-2xl border border-slate-100">
+                    <span class="text-xs font-bold text-brand-500 block mb-1">STEP 4</span>
+                    <h3 class="font-bold text-slate-700 text-sm">착시 코디 실습</h3>
+                    <p class="text-xs text-slate-500 mt-1">실시간 착시 효과 확인하기</p>
+                </div>
+            </div>
+
+            <button onclick="goToStep(2)" class="w-full sm:w-auto px-10 py-4 bg-brand-500 hover:bg-brand-600 text-white font-bold text-lg rounded-2xl shadow-lg shadow-brand-500/30 transition-all hover:scale-[1.02] active:scale-[0.98]">
+                코디 랩 시작하기 🚀
+            </button>
+        </section>
+
+        <!-- ================= STEP 2: AVATAR CUSTOMIZATION ================= -->
+        <section id="step-2" class="step-page hidden max-w-5xl mx-auto w-full animate-fade-in">
+            <div class="bg-amber-50 border border-amber-200 rounded-2xl p-4 mb-6 flex items-center gap-3 text-amber-800 text-sm">
+                <span class="text-xl">💡</span>
+                <span><strong>정답은 없어요!</strong> 나와 비슷하게 만들 수도 있고, 오늘 연출해보고 싶은 캐릭터로 자유롭게 만들어도 좋아요.</span>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+                <!-- Avatar Preview -->
+                <div class="lg:col-span-5 bg-white p-6 rounded-3xl shadow-lg border border-slate-100 flex flex-col items-center justify-center sticky top-20">
+                    <h3 class="font-jua text-xl text-slate-700 mb-2">나의 아바타</h3>
+                    <div id="avatar-svg-container-2" class="w-full max-w-[280px] aspect-[3/4] bg-slate-50 rounded-2xl flex items-center justify-center p-2 border border-slate-100 shadow-inner">
+                        <!-- SVG Avatar Inserted by JS -->
+                    </div>
+                </div>
+
+                <!-- Customization Controls -->
+                <div class="lg:col-span-7 bg-white p-6 rounded-3xl shadow-lg border border-slate-100 space-y-6">
+                    <h3 class="font-jua text-2xl text-slate-800 border-b pb-3">아바타 특징 설정</h3>
+
+                    <!-- Face Shape -->
+                    <div>
+                        <label class="block text-sm font-bold text-slate-700 mb-2">얼굴형</label>
+                        <div class="grid grid-cols-5 gap-2">
+                            <button onclick="setAvatarParam('faceShape', 'round')" class="btn-face p-2 rounded-xl border border-slate-200 text-xs text-center hover:bg-slate-50 font-medium">둥근형</button>
+                            <button onclick="setAvatarParam('faceShape', 'oval')" class="btn-face p-2 rounded-xl border border-slate-200 text-xs text-center hover:bg-slate-50 font-medium">갸름한형</button>
+                            <button onclick="setAvatarParam('faceShape', 'square')" class="btn-face p-2 rounded-xl border border-slate-200 text-xs text-center hover:bg-slate-50 font-medium">각진형</button>
+                            <button onclick="setAvatarParam('faceShape', 'long')" class="btn-face p-2 rounded-xl border border-slate-200 text-xs text-center hover:bg-slate-50 font-medium">긴형</button>
+                            <button onclick="setAvatarParam('faceShape', 'heart')" class="btn-face p-2 rounded-xl border border-slate-200 text-xs text-center hover:bg-slate-50 font-medium">하트형</button>
+                        </div>
+                    </div>
+
+                    <!-- Skin Tone & Undertone -->
+                    <div>
+                        <div class="flex justify-between items-center mb-2">
+                            <label class="text-sm font-bold text-slate-700">피부 톤 & 톤 느낌</label>
+                            <div class="flex gap-2">
+                                <button onclick="setAvatarParam('skinWarmth', 'warm')" class="btn-warmth text-xs px-2.5 py-1 rounded-lg border">노란 기(Warm)</button>
+                                <button onclick="setAvatarParam('skinWarmth', 'cool')" class="btn-warmth text-xs px-2.5 py-1 rounded-lg border">붉은 기(Cool)</button>
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-6 gap-2" id="skin-tone-buttons">
+                            <!-- Skin options rendered by JS -->
+                        </div>
+                    </div>
+
+                    <!-- Hair Style & Color -->
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm font-bold text-slate-700 mb-2">머리 모양</label>
+                            <select onchange="setAvatarParam('hairStyle', this.value)" id="hair-style-select" class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm font-medium">
+                                <option value="short">숏컷</option>
+                                <option value="bob">단발머리</option>
+                                <option value="long">긴 생머리</option>
+                                <option value="bun">묶음 머리</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-bold text-slate-700 mb-2">머리 색</label>
+                            <div class="flex gap-2" id="hair-color-buttons">
+                                <!-- Colors rendered by JS -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Height & Shoulder -->
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm font-bold text-slate-700 mb-2">키 연출</label>
+                            <div class="grid grid-cols-3 gap-1">
+                                <button onclick="setAvatarParam('height', 'short')" class="btn-height p-2 border rounded-xl text-xs">작은 편</button>
+                                <button onclick="setAvatarParam('height', 'medium')" class="btn-height p-2 border rounded-xl text-xs">보통</button>
+                                <button onclick="setAvatarParam('height', 'tall')" class="btn-height p-2 border rounded-xl text-xs">큰 편</button>
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-bold text-slate-700 mb-2">어깨 골격</label>
+                            <div class="grid grid-cols-3 gap-1">
+                                <button onclick="setAvatarParam('shoulder', 'narrow')" class="btn-shoulder p-2 border rounded-xl text-xs">좁은 편</button>
+                                <button onclick="setAvatarParam('shoulder', 'medium')" class="btn-shoulder p-2 border rounded-xl text-xs">보통</button>
+                                <button onclick="setAvatarParam('shoulder', 'wide')" class="btn-shoulder p-2 border rounded-xl text-xs">넓은 편</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Body Silhouette -->
+                    <div>
+                        <label class="block text-sm font-bold text-slate-700 mb-2">체형 실루엣</label>
+                        <div class="grid grid-cols-2 sm:grid-cols-4 gap-2">
+                            <button onclick="setAvatarParam('bodyType', 'straight')" class="btn-body p-2.5 border rounded-xl text-xs text-center font-medium">일자형</button>
+                            <button onclick="setAvatarParam('bodyType', 'topVolume')" class="btn-body p-2.5 border rounded-xl text-xs text-center font-medium">상체 볼륨형</button>
+                            <button onclick="setAvatarParam('bodyType', 'bottomVolume')" class="btn-body p-2.5 border rounded-xl text-xs text-center font-medium">하체 볼륨형</button>
+                            <button onclick="setAvatarParam('bodyType', 'curvy')" class="btn-body p-2.5 border rounded-xl text-xs text-center font-medium">곡선형</button>
+                        </div>
+                    </div>
+
+                    <div class="pt-4 border-t flex justify-end">
+                        <button onclick="goToStep(3)" class="px-8 py-3 bg-brand-500 hover:bg-brand-600 text-white font-bold rounded-xl shadow-md transition-all">
+                            다음: 색 관찰하기 &gt;
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= STEP 3: DRAPE COLOR EXPERIENCE ================= -->
+        <section id="step-3" class="step-page hidden max-w-5xl mx-auto w-full animate-fade-in">
+            <div class="bg-indigo-50 border border-indigo-200 rounded-2xl p-4 mb-6 text-indigo-900 text-sm flex items-center justify-between">
+                <div>
+                    <strong>💡 색 대어 보기 관찰</strong>: 정답이나 등급은 없어요! 얼굴 아래 천 색을 바꾸어 보며 내 얼굴 인상이 어떻게 달라 보이는지 스스로 관찰해 보세요.
+                </div>
+                <span class="text-xs font-bold bg-indigo-200 text-indigo-800 px-3 py-1 rounded-full">나의 색: <span id="my-color-count">0</span>/3</span>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+                <!-- Avatar & Drape View -->
+                <div class="lg:col-span-5 bg-white p-6 rounded-3xl shadow-lg border border-slate-100 flex flex-col items-center sticky top-20">
+                    <div id="compare-container" class="w-full flex gap-2 hidden mb-3">
+                        <div class="w-1/2 text-center">
+                            <span class="text-xs font-bold text-slate-500">A 안</span>
+                            <div id="drape-svg-left" class="w-full aspect-[3/4] bg-slate-50 rounded-xl border p-1"></div>
+                        </div>
+                        <div class="w-1/2 text-center">
+                            <span class="text-xs font-bold text-slate-500">B 안</span>
+                            <div id="drape-svg-right" class="w-full aspect-[3/4] bg-slate-50 rounded-xl border p-1"></div>
+                        </div>
+                    </div>
+
+                    <div id="single-drape-container" class="w-full max-w-[280px] aspect-[3/4] bg-slate-50 rounded-2xl border p-2 mb-3">
+                        <!-- Main Drape SVG -->
+                    </div>
+
+                    <!-- Impression Label -->
+                    <div id="drape-impression-box" class="w-full bg-slate-100 p-3 rounded-xl text-center text-sm font-bold text-slate-700">
+                        색상을 선택해 보세요.
+                    </div>
+
+                    <button id="btn-add-my-color" onclick="toggleMyColor()" class="mt-3 w-full py-2.5 border-2 border-brand-500 text-brand-500 font-bold rounded-xl hover:bg-brand-50 transition-all text-sm">
+                        ⭐ 이 색을 '나의 색'으로 저장/해제
+                    </button>
+                </div>
+
+                <!-- Drape Selector -->
+                <div class="lg:col-span-7 bg-white p-6 rounded-3xl shadow-lg border border-slate-100 space-y-6">
+                    <div class="flex justify-between items-center border-b pb-3">
+                        <h3 class="font-jua text-2xl text-slate-800">드레이프 천 선택</h3>
+                        <button onclick="toggleCompareMode()" id="btn-toggle-compare" class="px-3 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg text-xs font-bold">
+                            🔄 비교 모드 켜기
+                        </button>
+                    </div>
+
+                    <!-- Warm Colors -->
+                    <div>
+                        <h4 class="text-xs font-bold text-amber-600 mb-2 uppercase tracking-wider">Warm Palette (따뜻한 느낌)</h4>
+                        <div class="grid grid-cols-4 sm:grid-cols-8 gap-2" id="warm-drape-palette"></div>
+                    </div>
+
+                    <!-- Cool Colors -->
+                    <div>
+                        <h4 class="text-xs font-bold text-blue-600 mb-2 uppercase tracking-wider">Cool Palette (시원한 느낌)</h4>
+                        <div class="grid grid-cols-4 sm:grid-cols-8 gap-2" id="cool-drape-palette"></div>
+                    </div>
+
+                    <!-- Neutral Colors -->
+                    <div>
+                        <h4 class="text-xs font-bold text-slate-500 mb-2 uppercase tracking-wider">Neutral Palette (무채색 계열)</h4>
+                        <div class="grid grid-cols-4 sm:grid-cols-8 gap-2" id="neutral-drape-palette"></div>
+                    </div>
+
+                    <!-- Saved Colors Display -->
+                    <div class="bg-slate-50 p-4 rounded-2xl border border-slate-100">
+                        <h4 class="text-xs font-bold text-slate-600 mb-2">내가 선택한 '나의 색' (최대 3개, 코디 팔레트에 우선 적용)</h4>
+                        <div id="selected-my-colors" class="flex gap-3">
+                            <span class="text-xs text-slate-400">마음에 드는 색을 3개까지 골라보세요.</span>
+                        </div>
+                    </div>
+
+                    <div class="pt-4 border-t flex justify-between">
+                        <button onclick="goToStep(2)" class="px-6 py-2.5 bg-slate-100 text-slate-600 font-bold rounded-xl text-sm">이전</button>
+                        <button onclick="goToStep(4)" class="px-8 py-3 bg-brand-500 hover:bg-brand-600 text-white font-bold rounded-xl shadow-md transition-all">
+                            다음: 연출 목표 고르기 &gt;
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= STEP 4: GOAL SELECTION ================= -->
+        <section id="step-4" class="step-page hidden max-w-3xl mx-auto w-full animate-fade-in">
+            <div class="bg-white p-6 md:p-8 rounded-3xl shadow-lg border border-slate-100">
+                <h3 class="font-jua text-2xl text-slate-800 text-center mb-2">오늘 내가 원하는 연출 목표는?</h3>
+                <p class="text-slate-500 text-sm text-center mb-6">원하는 스타일 방향을 <strong>최대 2개</strong>까지 고르세요. 옷의 착시 효과가 이 목표를 맞춰줍니다.</p>
+
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-8" id="goal-options-container">
+                    <!-- Goals rendered by JS -->
+                </div>
+
+                <div class="flex justify-between items-center pt-4 border-t">
+                    <button onclick="goToStep(3)" class="px-6 py-2.5 bg-slate-100 text-slate-600 font-bold rounded-xl text-sm">이전</button>
+                    <button onclick="goToStep(5)" class="px-8 py-3 bg-brand-500 hover:bg-brand-600 text-white font-bold rounded-xl shadow-md transition-all">
+                        코디 실습 시작하기 ✨
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= STEP 5: MAIN COORDI STUDIO ================= -->
+        <section id="step-5" class="step-page hidden max-w-7xl mx-auto w-full animate-fade-in">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+                
+                <!-- LEFT: Avatar Display & Optical Meter -->
+                <div class="lg:col-span-5 flex flex-col gap-4 sticky top-20">
+                    <div class="bg-white p-4 rounded-3xl shadow-lg border border-slate-100 flex flex-col items-center">
+                        <div class="flex justify-between items-center w-full mb-2 px-2">
+                            <span class="font-jua text-slate-700 text-lg">코디 피팅룸</span>
+                            <div class="flex gap-2">
+                                <button onclick="saveAB('A')" class="px-2.5 py-1 bg-indigo-50 text-indigo-600 border border-indigo-200 text-xs font-bold rounded-lg hover:bg-indigo-100">A안 저장</button>
+                                <button onclick="saveAB('B')" class="px-2.5 py-1 bg-amber-50 text-amber-600 border border-amber-200 text-xs font-bold rounded-lg hover:bg-amber-100">B안 저장</button>
+                                <button onclick="openABCompareModal()" class="px-2.5 py-1 bg-slate-800 text-white text-xs font-bold rounded-lg hover:bg-slate-700">A/B 비교</button>
+                            </div>
+                        </div>
+
+                        <div id="avatar-svg-container-5" class="w-full max-w-[290px] aspect-[3/4] bg-slate-50 rounded-2xl border p-2 shadow-inner">
+                            <!-- Main Fitting SVG -->
+                        </div>
+                    </div>
+
+                    <!-- Effect Gauge Meter -->
+                    <div class="bg-white p-4 rounded-3xl shadow-lg border border-slate-100">
+                        <h4 class="font-jua text-slate-800 text-base mb-3 flex items-center justify-between">
+                            <span>📊 실시간 착시 효과 미터</span>
+                            <span class="text-xs font-sans text-slate-400">목표 방향 맞춤 분석</span>
+                        </h4>
+
+                        <div class="space-y-3" id="meters-container">
+                            <!-- Meters rendered by JS -->
+                        </div>
+
+                        <!-- Illusion Highlights -->
+                        <div class="mt-4 pt-3 border-t border-slate-100">
+                            <h5 class="text-xs font-bold text-slate-600 mb-2">✨ 현재 코디의 착시 포인트</h5>
+                            <ul id="illusion-reasons" class="text-xs text-slate-600 space-y-1.5 list-disc list-inside">
+                                <!-- Dynamic Reasons -->
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- RIGHT: Category Fitting Panel -->
+                <div class="lg:col-span-7 bg-white p-6 rounded-3xl shadow-lg border border-slate-100 flex flex-col">
+                    <!-- Category Tabs -->
+                    <div class="flex gap-1 overflow-x-auto pb-2 border-b border-slate-200 mb-4" id="coordi-tabs">
+                        <button onclick="setTab('top')" class="tab-btn active px-4 py-2 rounded-xl text-xs sm:text-sm font-bold whitespace-nowrap">상의</button>
+                        <button onclick="setTab('bottom')" class="tab-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-bold whitespace-nowrap">하의</button>
+                        <button onclick="setTab('outer')" class="tab-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-bold whitespace-nowrap">겉옷</button>
+                        <button onclick="setTab('neck')" class="tab-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-bold whitespace-nowrap">네크라인</button>
+                        <button onclick="setTab('shoes')" class="tab-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-bold whitespace-nowrap">신발</button>
+                    </div>
+
+                    <!-- Clothing Item Grid -->
+                    <div class="min-h-[220px] mb-6">
+                        <label class="block text-xs font-bold text-slate-400 mb-2 uppercase">아이템 선택</label>
+                        <div id="clothing-item-grid" class="grid grid-cols-3 sm:grid-cols-4 gap-2.5">
+                            <!-- Items rendered dynamically -->
+                        </div>
+                    </div>
+
+                    <!-- Color Selector for Selected Item -->
+                    <div class="border-t pt-4 mb-6">
+                        <label class="block text-xs font-bold text-slate-500 mb-2">선택한 의류 색상 설정</label>
+                        <div id="item-color-palette" class="flex flex-wrap gap-2">
+                            <!-- Palette buttons rendered dynamically -->
+                        </div>
+                    </div>
+
+                    <div class="pt-4 border-t flex justify-between items-center mt-auto">
+                        <button onclick="goToStep(4)" class="px-6 py-2.5 bg-slate-100 text-slate-600 font-bold rounded-xl text-sm">목표 다시 고르기</button>
+                        <button onclick="goToStep(6)" class="px-8 py-3 bg-brand-500 hover:bg-brand-600 text-white font-bold rounded-xl shadow-md transition-all">
+                            코디 완료 & 설명 작성하기 &gt;
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- ================= STEP 6: DESCRIPTION & FINAL CARD ================= -->
+        <section id="step-6" class="step-page hidden max-w-4xl mx-auto w-full animate-fade-in">
+            <div class="bg-white p-6 md:p-8 rounded-3xl shadow-lg border border-slate-100 mb-6">
+                <h3 class="font-jua text-2xl text-slate-800 mb-2">나의 코디 전략 설명서 작성</h3>
+                <p class="text-slate-500 text-xs sm:text-sm mb-4">어떤 목표를 위해 어떤 의복 디자인 요소(선·색·무늬·재질·실루엣)를 활용했는지 직접 설명해 보세요.</p>
+
+                <div class="mb-4">
+                    <label class="block text-sm font-bold text-slate-700 mb-1">학생 이름 / 닉네임</label>
+                    <input type="text" id="student-name-input" placeholder="이름을 입력하세요" class="w-full sm:w-64 p-2.5 bg-slate-50 border rounded-xl text-sm font-medium">
+                </div>
+
+                <div class="mb-4">
+                    <label class="block text-sm font-bold text-slate-700 mb-1">코디 설명 문장</label>
+                    <textarea id="coordi-desc-input" rows="4" oninput="checkSelfChecklist()" placeholder="예) 상체와 하체의 균형을 위해 상의에는 가로 줄무늬 무늬를 활용해 시선을 넓히고, 하이는 어두운 색의 와이드팬츠 실루엣으로 하체를 깔끔하게 정리했습니다." class="w-full p-3 bg-slate-50 border rounded-xl text-sm leading-relaxed"></textarea>
+                </div>
+
+                <!-- Self Checklist -->
+                <div class="bg-slate-50 p-4 rounded-2xl border border-slate-100">
+                    <h4 class="text-xs font-bold text-slate-600 mb-2">Self 점검 체크리스트</h4>
+                    <div class="flex flex-col sm:flex-row gap-3 text-xs">
+                        <div id="check-keywords" class="flex items-center gap-1.5 text-slate-400">
+                            <span class="check-icon">⚪</span> 디자인 요소 단어 2개 이상 (선, 색, 무늬, 재질, 실루엣)
+                        </div>
+                        <div id="check-length" class="flex items-center gap-1.5 text-slate-400">
+                            <span class="check-icon">⚪</span> 30자 이상 작성
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- FINAL DOWNLOADABLE CARD PREVIEW -->
+            <div class="bg-white p-6 rounded-3xl shadow-xl border border-slate-200" id="final-card-export">
+                <div class="border-4 border-slate-800 rounded-2xl p-6 bg-amber-50/30">
+                    <div class="flex justify-between items-center border-b border-slate-300 pb-3 mb-4">
+                        <div>
+                            <span class="text-xs font-bold text-brand-500 tracking-wider block">HOME ECONOMICS LAB</span>
+                            <h2 class="font-jua text-2xl text-slate-800">나를 살리는 코디 스타일 카드</h2>
+                        </div>
+                        <div class="text-right">
+                            <span class="text-xs text-slate-400 block">디자이너</span>
+                            <span id="card-student-name" class="font-bold text-slate-700 text-sm">무명 디자이너</span>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-12 gap-6 items-center">
+                        <div id="avatar-svg-container-6" class="md:col-span-5 bg-white p-2 rounded-xl border border-slate-200 shadow-sm aspect-[3/4] flex items-center justify-center">
+                            <!-- SVG Render -->
+                        </div>
+
+                        <div class="md:col-span-7 space-y-4">
+                            <div>
+                                <h4 class="text-xs font-bold text-slate-400">선택한 연출 목표</h4>
+                                <div id="card-goals" class="flex flex-wrap gap-1.5 mt-1"></div>
+                            </div>
+
+                            <div>
+                                <h4 class="text-xs font-bold text-slate-400">착시 효과 미터 결과</h4>
+                                <div id="card-meters" class="space-y-1.5 mt-1 text-xs"></div>
+                            </div>
+
+                            <div>
+                                <h4 class="text-xs font-bold text-slate-400">코디 연출 의도</h4>
+                                <p id="card-desc-text" class="text-xs text-slate-700 bg-white p-3 rounded-xl border border-slate-200 mt-1 leading-relaxed">
+                                    설명글을 입력하면 이곳에 완성된 카드가 업데이트됩니다.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="mt-6 flex flex-wrap gap-3 justify-center">
+                <button onclick="goToStep(5)" class="px-6 py-3 bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold rounded-xl text-sm">코디 수정하기</button>
+                <button onclick="downloadCardPNG()" class="px-8 py-3 bg-brand-500 hover:bg-brand-600 text-white font-bold rounded-xl shadow-lg transition-all text-sm">
+                    🖼️ 이미지로 저장 (PNG)
+                </button>
+                <button onclick="resetAll()" class="px-6 py-3 bg-slate-800 hover:bg-slate-900 text-white font-bold rounded-xl text-sm">🔄 처음부터 다시</button>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Modal for A/B Comparison -->
+    <div id="ab-modal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white w-full max-w-4xl rounded-3xl p-6 shadow-2xl animate-fade-in max-h-[90vh] overflow-y-auto">
+            <div class="flex justify-between items-center border-b pb-3 mb-4">
+                <h3 class="font-jua text-2xl text-slate-800">A/B 코디 비교하기</h3>
+                <button onclick="closeABCompareModal()" class="text-2xl text-slate-400 hover:text-slate-600">&times;</button>
+            </div>
+
+            <div class="grid grid-cols-2 gap-4">
+                <!-- Option A -->
+                <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200 flex flex-col items-center">
+                    <span class="font-bold text-indigo-600 text-sm mb-2">A 안 Style</span>
+                    <div id="modal-svg-a" class="w-full max-w-[200px] aspect-[3/4] bg-white rounded-xl border p-1 mb-3"></div>
+                    <div id="modal-meters-a" class="w-full space-y-2 text-xs"></div>
+                </div>
+
+                <!-- Option B -->
+                <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200 flex flex-col items-center">
+                    <span class="font-bold text-amber-600 text-sm mb-2">B 안 Style</span>
+                    <div id="modal-svg-b" class="w-full max-w-[200px] aspect-[3/4] bg-white rounded-xl border p-1 mb-3"></div>
+                    <div id="modal-meters-b" class="w-full space-y-2 text-xs"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Hidden Canvas for Export -->
+    <canvas id="export-canvas" class="hidden"></canvas>
+
+    <!-- App JavaScript Logic -->
+    <script>
+        /* ================= STATE MANAGEMENT ================= */
+        const state = {
+            step: 1,
+            avatar: {
+                faceShape: 'oval', // round, oval, square, long, heart
+                skinTone: '#f8d5c2',
+                skinWarmth: 'warm', // warm, cool
+                hairStyle: 'short', // short, bob, long, bun
+                hairColor: '#2b2b2b',
+                height: 'medium', // short, medium, tall
+                shoulder: 'medium', // narrow, medium, wide
+                bodyType: 'straight', // straight, topVolume, bottomVolume, curvy
+            },
+            drapeColor: '#e06666',
+            myColors: [], // max 3
+            compareDrapeColor: '#4a90e2',
+            isCompareDrapeMode: false,
+            goals: [], // max 2
+            coordi: {
+                top: 'tee_plain',
+                topColor: '#ffffff',
+                bottom: 'pants_straight',
+                bottomColor: '#3b5998',
+                outer: 'none',
+                outerColor: '#333333',
+                neck: 'round',
+                shoes: 'sneakers',
+                shoesColor: '#ffffff'
+            },
+            savedA: null,
+            savedB: null,
+            activeTab: 'top'
+        };
+
+        /* ================= CONSTANTS & PALETTES ================= */
+        const SKIN_TONES = ['#fff0e6', '#f8d5c2', '#eab196', '#d08c6c', '#a66443', '#613d29'];
+        const HAIR_COLORS = ['#1a1a1a', '#4a3728', '#8c5a2b', '#c99753'];
+        
+        const DRAPE_PALETTE = {
+            warm: [
+                { name: '코럴', hex: '#ff7f50', desc: '생기 있고 따뜻한 인상' },
+                { name: '피치', hex: '#ffb7c5', desc: '부드럽고 친근한 인상' },
+                { name: '머스타드', hex: '#ffdb58', desc: '밝고 활기찬 인상' },
+                { name: '테라코타', hex: '#e07a5f', desc: '차분하고 차분한 인상' },
+                { name: '올리브', hex: '#808000', desc: '자연스럽고 편안한 인상' },
+                { name: '오렌지', hex: '#ffa500', desc: '에너지 있고 포근한 인상' },
+                { name: '카멜', hex: '#c19a6b', desc: '클래식하고 고급스러운 인상' },
+                { name: '웜레드', hex: '#d9381e', desc: '강렬하고 화사한 인상' }
+            ],
+            cool: [
+                { name: '라벤더', hex: '#e6e6fa', desc: '부드럽고 맑은 인상' },
+                { name: '민트', hex: '#98ff98', desc: '상쾌하고 깨끗한 인상' },
+                { name: '로얄블루', hex: '#4169e1', desc: '선명하고 또렷한 인상' },
+                { name: '마젠타', hex: '#ff007f', desc: '화려하고 개성 있는 인상' },
+                { name: '스카이블루', hex: '#87ceeb', desc: '시원하고 청량한 인상' },
+                { name: '에메랄드', hex: '#50c878', desc: '세련되고 도회적인 인상' },
+                { name: '플럼', hex: '#dda0dd', desc: '차분하고 우아한 인상' },
+                { name: '쿨레드', hex: '#c8102e', desc: '도시적이고 시원한 인상' }
+            ],
+            neutral: [
+                { name: '화이트', hex: '#ffffff', desc: '깨끗하고 정돈된 인상' },
+                { name: '라이트그레이', hex: '#d3d3d3', desc: '단정하고 세련된 인상' },
+                { name: '차콜', hex: '#36454f', desc: '깊이 있고 안정적인 인상' },
+                { name: '검정', hex: '#000000', desc: '또렷하고 단정한 인상' }
+            ]
+        };
+
+        const GOAL_OPTIONS = [
+            { id: 'tall', label: '키가 커 보이게' },
+            { id: 'longLegs', label: '다리가 길어 보이게' },
+            { id: 'wideShoulders', label: '어깨가 넓어 보이게' },
+            { id: 'narrowShoulders', label: '어깨가 좁아 보이게' },
+            { id: 'balance', label: '상·하체 균형 맞추기' },
+            { id: 'slenderFace', label: '얼굴이 갸름해 보이게' },
+            { id: 'soft', label: '부드러운 인상' },
+            { id: 'active', label: '활동적인 인상' },
+            { id: 'neat', label: '단정한 인상' }
+        ];
+
+        const CLOTHING_ITEMS = {
+            top: [
+                { id: 'shirt', name: '셔츠' },
+                { id: 'hoodie', name: '후드티' },
+                { id: 'windbreaker', name: '바람막이' },
+                { id: 'tee_striped_h', name: '가로줄무늬 티' },
+                { id: 'tee_striped_v', name: '세로줄무늬 티' },
+                { id: 'tee_plain', name: '무지 티셔츠' },
+                { id: 'knit', name: '니트' },
+                { id: 'over_sweatshirt', name: '오버핏 맨투맨' },
+                { id: 'crop_top', name: '크롭 상의' }
+            ],
+            bottom: [
+                { id: 'pants_flare', name: '나팔바지' },
+                { id: 'pants_skinny', name: '스키니바지' },
+                { id: 'pants_straight', name: '일자 청바지' },
+                { id: 'pants_wide', name: '와이드팬츠' },
+                { id: 'pants_track', name: '추리닝 바지' },
+                { id: 'shorts', name: '반바지' },
+                { id: 'skirt_a', name: 'A라인 치마' },
+                { id: 'skirt_h', name: 'H라인 치마' }
+            ],
+            outer: [
+                { id: 'none', name: '없음' },
+                { id: 'jacket', name: '재킷' },
+                { id: 'cardigan', name: '가디건' },
+                { id: 'long_coat', name: '롱코트' }
+            ],
+            neck: [
+                { id: 'round', name: '라운드넥' },
+                { id: 'vneck', name: 'V넥' },
+                { id: 'turtleneck', name: '터틀넥' }
+            ],
+            shoes: [
+                { id: 'sneakers', name: '운동화' },
+                { id: 'loafers', name: '로퍼' },
+                { id: 'sandals', name: '샌들' },
+                { id: 'boots', name: '부츠' }
+            ]
+        };
+
+        const BASE_PALETTE = ['#ffffff', '#000000', '#3b5998', '#d9381e', '#2e7d32', '#fbc02d', '#8e24aa', '#ff8f00', '#6d4c41', '#78909c', '#e91e63', '#00bcd4', '#ffcc80', '#b0bec5'];
+
+        /* ================= NAVIGATION ================= */
+        function goToStep(stepNum) {
+            state.step = stepNum;
+            document.querySelectorAll('.step-page').forEach(el => el.classList.add('hidden'));
+            document.getElementById(`step-${stepNum}`).classList.remove('hidden');
+
+            // Update Header Step Indicator
+            const tags = document.querySelectorAll('.step-tag');
+            tags.forEach((tag, idx) => {
+                if (idx + 1 === stepNum) {
+                    tag.className = 'step-tag px-2.5 py-1 rounded-full bg-brand-500 text-white font-bold';
+                } else {
+                    tag.className = 'step-tag px-2.5 py-1 rounded-full bg-slate-100 text-slate-500';
+                }
+            });
+
+            if (stepNum > 1) {
+                document.getElementById('step-indicator').classList.remove('hidden');
+            } else {
+                document.getElementById('step-indicator').classList.add('hidden');
+            }
+
+            // Render Views based on step
+            if (stepNum === 2) renderStep2();
+            if (stepNum === 3) renderStep3();
+            if (stepNum === 4) renderStep4();
+            if (stepNum === 5) renderStep5();
+            if (stepNum === 6) renderStep6();
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        /* ================= SVG GENERATOR ENGINE ================= */
+        function generateAvatarSVG(options = {}) {
+            const avatar = { ...state.avatar, ...options.avatarOverride };
+            const coordi = { ...state.coordi, ...options.coordiOverride };
+            const isDrapeMode = options.isDrapeMode || false;
+            const drapeColor = options.drapeColor || state.drapeColor;
+
+            // Dimensions and Scalings
+            let heightScale = 1.0;
+            if (avatar.height === 'short') heightScale = 0.92;
+            if (avatar.height === 'tall') heightScale = 1.08;
+
+            let shoulderWidth = 90;
+            if (avatar.shoulder === 'narrow') shoulderWidth = 78;
+            if (avatar.shoulder === 'wide') shoulderWidth = 104;
+
+            // Base SVG Box
+            let svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 420" class="w-full h-full">
+            <defs>
+                <!-- SVG Patterns for Stripe Clothes -->
+                <pattern id="pattern-stripe-h" width="20" height="10" patternUnits="userSpaceOnUse">
+                    <line x1="0" y1="5" x2="20" y2="5" stroke="#333" stroke-width="3" opacity="0.4"/>
+                </pattern>
+                <pattern id="pattern-stripe-v" width="10" height="20" patternUnits="userSpaceOnUse">
+                    <line x1="5" y1="0" x2="5" y2="20" stroke="#333" stroke-width="3" opacity="0.4"/>
+                </pattern>
+            </defs>`;
+
+            // Background Light Glow
+            svg += `<circle cx="150" cy="200" r="140" fill="#f1f5f9" opacity="0.5"/>`;
+
+            const headY = 85;
+            const bodyY = 145;
+
+            // Body Base Silhouette
+            let hipWidth = 85;
+            if (avatar.bodyType === 'bottomVolume' || avatar.bodyType === 'curvy') hipWidth = 100;
+            if (avatar.bodyType === 'topVolume') shoulderWidth += 6;
+
+            // Draw Legs Base
+            svg += `<g id="body-legs">
+                <rect x="${150 - 18}" y="${bodyY + 110}" width="14" height="${110 * heightScale}" fill="${avatar.skinTone}" rx="6"/>
+                <rect x="${150 + 4}" y="${bodyY + 110}" width="14" height="${110 * heightScale}" fill="${avatar.skinTone}" rx="6"/>
+            </g>`;
+
+            // Draw Arms Base
+            svg += `<g id="body-arms">
+                <rect x="${150 - shoulderWidth/2 - 12}" y="${bodyY + 10}" width="12" height="100" fill="${avatar.skinTone}" rx="6"/>
+                <rect x="${150 + shoulderWidth/2}" y="${bodyY + 10}" width="12" height="100" fill="${avatar.skinTone}" rx="6"/>
+            </g>`;
+
+            // Draw Torso Base
+            svg += `<path d="M ${150 - shoulderWidth/2} ${bodyY} L ${150 + shoulderWidth/2} ${bodyY} L ${150 + hipWidth/2} ${bodyY + 110} L ${150 - hipWidth/2} ${bodyY + 110} Z" fill="${avatar.skinTone}" />`;
+
+            // Draw Neck
+            let neckWidth = 24;
+            svg += `<rect x="${150 - neckWidth/2}" y="${headY + 35}" width="${neckWidth}" height="30" fill="${avatar.skinTone}" />`;
+
+            // Draw Face Shape
+            svg += `<g id="head-group">`;
+            if (avatar.faceShape === 'round') {
+                svg += `<ellipse cx="150" cy="${headY}" rx="38" ry="38" fill="${avatar.skinTone}" />`;
+            } else if (avatar.faceShape === 'oval') {
+                svg += `<ellipse cx="150" cy="${headY}" rx="34" ry="42" fill="${avatar.skinTone}" />`;
+            } else if (avatar.faceShape === 'square') {
+                svg += `<rect x="114" y="${headY - 38}" width="72" height="74" rx="14" fill="${avatar.skinTone}" />`;
+            } else if (avatar.faceShape === 'long') {
+                svg += `<ellipse cx="150" cy="${headY}" rx="32" ry="46" fill="${avatar.skinTone}" />`;
+            } else if (avatar.faceShape === 'heart') {
+                svg += `<path d="M 150 ${headY + 44} C 110 ${headY + 20} 112 ${headY - 35} 150 ${headY - 35} C 188 ${headY - 35} 190 ${headY + 20} 150 ${headY + 44} Z" fill="${avatar.skinTone}" />`;
+            }
+
+            // Facial Features (Friendly Neutral)
+            svg += `<circle cx="137" cy="${headY - 2}" r="3.5" fill="#333"/>`;
+            svg += `<circle cx="163" cy="${headY - 2}" r="3.5" fill="#333"/>`;
+            svg += `<path d="M 144 ${headY + 16} Q 150 ${headY + 22} 156 ${headY + 16}" stroke="#d97706" stroke-width="2.5" fill="none" stroke-linecap="round"/>`;
+            // Cheeks
+            svg += `<circle cx="130" cy="${headY + 8}" r="5" fill="#ff8a8a" opacity="0.3"/>`;
+            svg += `<circle cx="170" cy="${headY + 8}" r="5" fill="#ff8a8a" opacity="0.3"/>`;
+            svg += `</g>`;
+
+            // Hair
+            svg += `<g id="hair-group" fill="${avatar.hairColor}">`;
+            if (avatar.hairStyle === 'short') {
+                svg += `<path d="M 112 ${headY - 10} C 112 ${headY - 50} 188 ${headY - 50} 188 ${headY - 10} C 188 ${headY - 5} 180 ${headY - 20} 150 ${headY - 20} C 120 ${headY - 20} 112 ${headY - 5} 112 ${headY - 10} Z" />`;
+            } else if (avatar.hairStyle === 'bob') {
+                svg += `<path d="M 110 ${headY - 20} C 110 ${headY - 52} 190 ${headY - 52} 190 ${headY - 20} L 192 ${headY + 25} L 178 ${headY + 25} L 178 ${headY - 10} C 160 ${headY - 15} 140 ${headY - 15} 122 ${headY - 10} L 122 ${headY + 25} L 108 ${headY + 25} Z" />`;
+            } else if (avatar.hairStyle === 'long') {
+                svg += `<path d="M 110 ${headY - 20} C 110 ${headY - 52} 190 ${headY - 52} 190 ${headY - 20} L 194 ${headY + 80} L 174 ${headY + 80} L 174 ${headY - 10} C 160 ${headY - 15} 140 ${headY - 15} 126 ${headY - 10} L 126 ${headY + 80} L 106 ${headY + 80} Z" />`;
+            } else if (avatar.hairStyle === 'bun') {
+                svg += `<circle cx="150" cy="${headY - 48}" r="16" />`;
+                svg += `<path d="M 114 ${headY - 10} C 114 ${headY - 45} 186 ${headY - 45} 186 ${headY - 10} C 170 ${headY - 20} 130 ${headY - 20} 114 ${headY - 10} Z" />`;
+            }
+            svg += `</g>`;
+
+            // IF DRAPE MODE STEP 3
+            if (isDrapeMode) {
+                svg += `<g id="drape-cloth">
+                    <path d="M ${150 - shoulderWidth/2 - 10} ${bodyY + 15} Q 150 ${bodyY + 65} ${150 + shoulderWidth/2 + 10} ${bodyY + 15} L 230 380 L 70 380 Z" fill="${drapeColor}" />
+                    <path d="M ${150 - shoulderWidth/2 - 10} ${bodyY + 15} Q 150 ${bodyY + 65} ${150 + shoulderWidth/2 + 10} ${bodyY + 15}" stroke="rgba(0,0,0,0.15)" stroke-width="4" fill="none" />
+                </g>`;
+                svg += `</svg>`;
+                return svg;
+            }
+
+            // ================= CLOTHING DRAWINGS (STEP 5) =================
+
+            // 1. BOTTOM CLOTHES
+            svg += `<g id="bottom-group">`;
+            const bColor = coordi.bottomColor;
+            const legTopY = bodyY + 80;
+            const legBottomY = bodyY + 110 + (110 * heightScale);
+
+            if (coordi.bottom === 'pants_skinny') {
+                svg += `<path d="M 115 ${legTopY} L 185 ${legTopY} L 172 ${legBottomY} L 152 ${legBottomY} L 150 ${legTopY + 30} L 148 ${legBottomY} L 128 ${legBottomY} Z" fill="${bColor}" />`;
+            } else if (coordi.bottom === 'pants_straight') {
+                svg += `<path d="M 112 ${legTopY} L 188 ${legTopY} L 182 ${legBottomY} L 154 ${legBottomY} L 150 ${legTopY + 25} L 146 ${legBottomY} L 118 ${legBottomY} Z" fill="${bColor}" />`;
+            } else if (coordi.bottom === 'pants_flare') {
+                svg += `<path d="M 115 ${legTopY} L 185 ${legTopY} L 195 ${legBottomY} L 156 ${legBottomY} L 150 ${legTopY + 25} L 144 ${legBottomY} L 105 ${legBottomY} Z" fill="${bColor}" />`;
+            } else if (coordi.bottom === 'pants_wide') {
+                svg += `<path d="M 105 ${legTopY} L 195 ${legTopY} L 200 ${legBottomY} L 153 ${legBottomY} L 150 ${legTopY + 20} L 147 ${legBottomY} L 100 ${legBottomY} Z" fill="${bColor}" />`;
+            } else if (coordi.bottom === 'pants_track') {
+                svg += `<path d="M 108 ${legTopY} L 192 ${legTopY} L 186 ${legBottomY} L 154 ${legBottomY} L 150 ${legTopY + 20} L 146 ${legBottomY} L 114 ${legBottomY} Z" fill="${bColor}" />`;
+                svg += `<line x1="116" y1="${legTopY}" x2="120" y2="${legBottomY}" stroke="#fff" stroke-width="2"/>`;
+                svg += `<line x1="184" y1="${legTopY}" x2="180" y2="${legBottomY}" stroke="#fff" stroke-width="2"/>`;
+            } else if (coordi.bottom === 'shorts') {
+                const shortY = legTopY + 40;
+                svg += `<path d="M 112 ${legTopY} L 188 ${legTopY} L 185 ${shortY} L 153 ${shortY} L 150 ${legTopY + 20} L 147 ${shortY} L 115 ${shortY} Z" fill="${bColor}" />`;
+            } else if (coordi.bottom === 'skirt_a') {
+                const skirtY = legTopY + 75;
+                svg += `<path d="M 115 ${legTopY} L 185 ${legTopY} L 210 ${skirtY} L 90 ${skirtY} Z" fill="${bColor}" />`;
+            } else if (coordi.bottom === 'skirt_h') {
+                const skirtY = legTopY + 75;
+                svg += `<path d="M 118 ${legTopY} L 182 ${legTopY} L 184 ${skirtY} L 116 ${skirtY} Z" fill="${bColor}" />`;
+            }
+            svg += `</g>`;
+
+            // 2. TOP CLOTHES
+            svg += `<g id="top-group">`;
+            const tColor = coordi.topColor;
+            let topEndY = bodyY + 85;
+            let topXLeft = 150 - shoulderWidth/2 - 2;
+            let topXRight = 150 + shoulderWidth/2 + 2;
+
+            if (coordi.top === 'crop_top') topEndY = bodyY + 45;
+            if (coordi.top === 'over_sweatshirt') {
+                topXLeft -= 10;
+                topXRight += 10;
+                topEndY = bodyY + 95;
+            }
+
+            // Base Top Shape
+            svg += `<path d="M ${topXLeft} ${bodyY + 12} L 132 ${bodyY} L 168 ${bodyY} L ${topXRight} ${bodyY + 12} L ${topXRight + 2} ${topEndY} L ${topXLeft - 2} ${topEndY} Z" fill="${tColor}" />`;
+
+            // Sleeves
+            if (coordi.top === 'over_sweatshirt' || coordi.top === 'hoodie' || coordi.top === 'windbreaker' || coordi.top === 'knit' || coordi.top === 'shirt') {
+                svg += `<rect x="${topXLeft - 10}" y="${bodyY + 12}" width="12" height="75" fill="${tColor}" rx="4"/>`;
+                svg += `<rect x="${topXRight - 2}" y="${bodyY + 12}" width="12" height="75" fill="${tColor}" rx="4"/>`;
+            } else {
+                // Short Sleeves
+                svg += `<rect x="${topXLeft - 8}" y="${bodyY + 12}" width="10" height="35" fill="${tColor}" rx="3"/>`;
+                svg += `<rect x="${topXRight - 2}" y="${bodyY + 12}" width="10" height="35" fill="${tColor}" rx="3"/>`;
+            }
+
+            // Stripe Patterns Overlay
+            if (coordi.top === 'tee_striped_h') {
+                svg += `<path d="M ${topXLeft} ${bodyY + 12} L 132 ${bodyY} L 168 ${bodyY} L ${topXRight} ${bodyY + 12} L ${topXRight + 2} ${topEndY} L ${topXLeft - 2} ${topEndY} Z" fill="url(#pattern-stripe-h)" />`;
+            } else if (coordi.top === 'tee_striped_v') {
+                svg += `<path d="M ${topXLeft} ${bodyY + 12} L 132 ${bodyY} L 168 ${bodyY} L ${topXRight} ${bodyY + 12} L ${topXRight + 2} ${topEndY} L ${topXLeft - 2} ${topEndY} Z" fill="url(#pattern-stripe-v)" />`;
+            }
+
+            // Top Details (Hood, Pocket)
+            if (coordi.top === 'hoodie') {
+                svg += `<path d="M 132 ${bodyY} Q 150 ${bodyY - 15} 168 ${bodyY} Q 150 ${bodyY + 25} 132 ${bodyY} Z" fill="${tColor}" stroke="#111" stroke-opacity="0.15" />`;
+            }
+
+            // Necklines
+            svg += `<g id="neckline-group">`;
+            if (coordi.neck === 'round') {
+                svg += `<path d="M 136 ${bodyY} Q 150 ${bodyY + 18} 164 ${bodyY} Z" fill="${avatar.skinTone}" />`;
+            } else if (coordi.neck === 'vneck') {
+                svg += `<path d="M 135 ${bodyY} L 150 ${bodyY + 32} L 165 ${bodyY} Z" fill="${avatar.skinTone}" />`;
+            } else if (coordi.neck === 'turtleneck') {
+                svg += `<rect x="136" y="${headY + 32}" width="28" height="20" fill="${tColor}" rx="3"/>`;
+            }
+            svg += `</g>`;
+
+            svg += `</g>`; // End Top
+
+            // 3. OUTERWEAR
+            if (coordi.outer !== 'none') {
+                svg += `<g id="outer-group">`;
+                const oColor = coordi.outerColor;
+                let outerEndY = bodyY + 90;
+                if (coordi.outer === 'long_coat') outerEndY = bodyY + 170;
+
+                // Left & Right Flaps
+                svg += `<path d="M ${150 - shoulderWidth/2 - 6} ${bodyY + 10} L 136 ${bodyY} L 138 ${outerEndY} L ${150 - shoulderWidth/2 - 10} ${outerEndY} Z" fill="${oColor}" />`;
+                svg += `<path d="M ${150 + shoulderWidth/2 + 6} ${bodyY + 10} L 164 ${bodyY} L 162 ${outerEndY} L ${150 + shoulderWidth/2 + 10} ${outerEndY} Z" fill="${oColor}" />`;
+
+                // Outer Sleeves
+                svg += `<rect x="${150 - shoulderWidth/2 - 14}" y="${bodyY + 10}" width="14" height="85" fill="${oColor}" rx="4"/>`;
+                svg += `<rect x="${150 + shoulderWidth/2}" y="${bodyY + 10}" width="14" height="85" fill="${oColor}" rx="4"/>`;
+
+                if (coordi.outer === 'jacket') {
+                    // Collar lapel
+                    svg += `<path d="M 136 ${bodyY} L 144 ${bodyY + 25} L 136 ${bodyY + 35} Z" fill="#222" opacity="0.2"/>`;
+                    svg += `<path d="M 164 ${bodyY} L 156 ${bodyY + 25} L 164 ${bodyY + 35} Z" fill="#222" opacity="0.2"/>`;
+                }
+                svg += `</g>`;
+            }
+
+            // 4. SHOES
+            svg += `<g id="shoes-group">`;
+            const sColor = coordi.shoesColor;
+            const shoeY = legBottomY;
+
+            if (coordi.shoes === 'sneakers') {
+                svg += `<rect x="126" y="${shoeY}" width="20" height="12" fill="${sColor}" rx="4" />`;
+                svg += `<rect x="154" y="${shoeY}" width="20" height="12" fill="${sColor}" rx="4" />`;
+            } else if (coordi.shoes === 'loafers') {
+                svg += `<path d="M 126 ${shoeY} L 146 ${shoeY} L 144 ${shoeY + 10} L 124 ${shoeY + 10} Z" fill="${sColor}" />`;
+                svg += `<path d="M 154 ${shoeY} L 174 ${shoeY} L 176 ${shoeY + 10} L 156 ${shoeY + 10} Z" fill="${sColor}" />`;
+            } else if (coordi.shoes === 'sandals') {
+                svg += `<rect x="126" y="${shoeY + 6}" width="20" height="4" fill="${sColor}" />`;
+                svg += `<rect x="154" y="${shoeY + 6}" width="20" height="4" fill="${sColor}" />`;
+            } else if (coordi.shoes === 'boots') {
+                svg += `<rect x="125" y="${shoeY - 20}" width="22" height="32" fill="${sColor}" rx="3" />`;
+                svg += `<rect x="153" y="${shoeY - 20}" width="22" height="32" fill="${sColor}" rx="3" />`;
+            }
+            svg += `</g>`;
+
+            svg += `</svg>`;
+            return svg;
+        }
+
+        /* ================= STEP 2: AVATAR CUSTOMIZATION LOGIC ================= */
+        function renderStep2() {
+            document.getElementById('avatar-svg-container-2').innerHTML = generateAvatarSVG();
+
+            // Render Skin Tone Buttons
+            const skinContainer = document.getElementById('skin-tone-buttons');
+            skinContainer.innerHTML = SKIN_TONES.map(hex => `
+                <button onclick="setAvatarParam('skinTone', '${hex}')" class="h-9 rounded-xl border-2 transition-all ${state.avatar.skinTone === hex ? 'border-brand-500 scale-105' : 'border-transparent'}" style="background-color: ${hex};"></button>
+            `).join('');
+
+            // Render Hair Color Buttons
+            const hairColorContainer = document.getElementById('hair-color-buttons');
+            hairColorContainer.innerHTML = HAIR_COLORS.map(hex => `
+                <button onclick="setAvatarParam('hairColor', '${hex}')" class="w-8 h-8 rounded-full border-2 transition-all ${state.avatar.hairColor === hex ? 'border-brand-500 scale-110' : 'border-transparent'}" style="background-color: ${hex};"></button>
+            `).join('');
+        }
+
+        function setAvatarParam(key, val) {
+            state.avatar[key] = val;
+            renderStep2();
+        }
+
+        /* ================= STEP 3: DRAPE LOGIC ================= */
+        function renderStep3() {
+            renderDrapePalette('warm-drape-palette', DRAPE_PALETTE.warm);
+            renderDrapePalette('cool-drape-palette', DRAPE_PALETTE.cool);
+            renderDrapePalette('neutral-drape-palette', DRAPE_PALETTE.neutral);
+            updateDrapeView();
+            updateMyColorsUI();
+        }
+
+        function renderDrapePalette(containerId, list) {
+            const container = document.getElementById(containerId);
+            container.innerHTML = list.map(item => `
+                <button onclick="selectDrapeColor('${item.hex}', '${item.desc}')" class="group flex flex-col items-center">
+                    <div class="w-10 h-10 rounded-xl shadow-sm border border-slate-200 transition-all group-hover:scale-110" style="background-color: ${item.hex};"></div>
+                    <span class="text-[10px] text-slate-600 mt-1 font-medium">${item.name}</span>
+                </button>
+            `).join('');
+        }
+
+        function selectDrapeColor(hex, desc) {
+            if (state.isCompareDrapeMode) {
+                state.compareDrapeColor = hex;
+            } else {
+                state.drapeColor = hex;
+            }
+            document.getElementById('drape-impression-box').innerText = desc;
+            updateDrapeView();
+        }
+
+        function updateDrapeView() {
+            if (state.isCompareDrapeMode) {
+                document.getElementById('single-drape-container').classList.add('hidden');
+                document.getElementById('compare-container').classList.remove('hidden');
+                document.getElementById('drape-svg-left').innerHTML = generateAvatarSVG({ isDrapeMode: true, drapeColor: state.drapeColor });
+                document.getElementById('drape-svg-right').innerHTML = generateAvatarSVG({ isDrapeMode: true, drapeColor: state.compareDrapeColor });
+            } else {
+                document.getElementById('single-drape-container').classList.remove('hidden');
+                document.getElementById('compare-container').classList.add('hidden');
+                document.getElementById('single-drape-container').innerHTML = generateAvatarSVG({ isDrapeMode: true });
+            }
+        }
+
+        function toggleCompareMode() {
+            state.isCompareDrapeMode = !state.isCompareDrapeMode;
+            document.getElementById('btn-toggle-compare').innerText = state.isCompareDrapeMode ? '🔴 비교 모드 끄기' : '🔄 비교 모드 켜기';
+            updateDrapeView();
+        }
+
+        function toggleMyColor() {
+            const current = state.drapeColor;
+            const idx = state.myColors.indexOf(current);
+            if (idx > -1) {
+                state.myColors.splice(idx, 1);
+            } else {
+                if (state.myColors.length >= 3) {
+                    alert('나의 색은 최대 3개까지 고를 수 있어요!');
+                    return;
+                }
+                state.myColors.push(current);
+            }
+            updateMyColorsUI();
+        }
+
+        function updateMyColorsUI() {
+            document.getElementById('my-color-count').innerText = state.myColors.length;
+            const container = document.getElementById('selected-my-colors');
+            if (state.myColors.length === 0) {
+                container.innerHTML = `<span class="text-xs text-slate-400">마음에 드는 색을 3개까지 골라보세요.</span>`;
+            } else {
+                container.innerHTML = state.myColors.map(hex => `
+                    <div class="flex items-center gap-1.5 bg-white border rounded-xl px-2.5 py-1 shadow-sm">
+                        <span class="w-4 h-4 rounded-full border" style="background-color: ${hex}"></span>
+                        <button onclick="removeMyColor('${hex}')" class="text-xs text-slate-400 hover:text-red-500 font-bold">&times;</button>
+                    </div>
+                `).join('');
+            }
+        }
+
+        function removeMyColor(hex) {
+            state.myColors = state.myColors.filter(c => c !== hex);
+            updateMyColorsUI();
+        }
+
+        /* ================= STEP 4: GOAL LOGIC ================= */
+        function renderStep4() {
+            const container = document.getElementById('goal-options-container');
+            container.innerHTML = GOAL_OPTIONS.map(g => {
+                const isSelected = state.goals.includes(g.id);
+                return `
+                    <button onclick="toggleGoal('${g.id}')" class="p-4 rounded-2xl border-2 text-left transition-all flex items-center justify-between ${isSelected ? 'border-brand-500 bg-brand-50 text-brand-700 font-bold' : 'border-slate-200 hover:border-slate-300 text-slate-700'}">
+                        <span class="text-sm">${g.label}</span>
+                        <span>${isSelected ? '✅' : '➕'}</span>
+                    </button>
+                `;
+            }).join('');
+        }
+
+        function toggleGoal(goalId) {
+            const idx = state.goals.indexOf(goalId);
+            if (idx > -1) {
+                state.goals.splice(idx, 1);
+            } else {
+                if (state.goals.length >= 2) {
+                    alert('연출 목표는 최대 2개까지 선택할 수 있습니다.');
+                    return;
+                }
+                state.goals.push(goalId);
+            }
+            renderStep4();
+        }
+
+        /* ================= STEP 5: COORDI STUDIO & METERS ================= */
+        function renderStep5() {
+            document.getElementById('avatar-svg-container-5').innerHTML = generateAvatarSVG();
+            renderTabContent();
+            updateOpticalMeters();
+        }
+
+        function setTab(tabName) {
+            state.activeTab = tabName;
+            document.querySelectorAll('#coordi-tabs .tab-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            renderTabContent();
+        }
+
+        function renderTabContent() {
+            const items = CLOTHING_ITEMS[state.activeTab] || [];
+            const grid = document.getElementById('clothing-item-grid');
+
+            grid.innerHTML = items.map(item => {
+                const isSelected = state.coordi[state.activeTab] === item.id;
+                return `
+                    <button onclick="selectClothingItem('${state.activeTab}', '${item.id}')" class="p-3 rounded-2xl border-2 text-xs font-bold transition-all text-center ${isSelected ? 'border-brand-500 bg-brand-50 text-brand-600' : 'border-slate-200 hover:bg-slate-50 text-slate-700'}">
+                        ${item.name}
+                    </button>
+                `;
+            }).join('');
+
+            // Render Palette
+            renderItemColorPalette();
+        }
+
+        function selectClothingItem(category, itemId) {
+            state.coordi[category] = itemId;
+            renderStep5();
+        }
+
+        function renderItemColorPalette() {
+            const container = document.getElementById('item-color-palette');
+            const currentCategory = state.activeTab;
+            
+            if (currentCategory === 'neck') {
+                container.innerHTML = `<span class="text-xs text-slate-400">네크라인은 상의 디자인의 형태 옵션입니다.</span>`;
+                return;
+            }
+
+            const colorKey = currentCategory + 'Color';
+            const currentColor = state.coordi[colorKey];
+
+            // Combine Saved 'My Colors' + Base Palette
+            const allColors = [...new Set([...state.myColors, ...BASE_PALETTE])];
+
+            container.innerHTML = allColors.map(hex => `
+                <button onclick="setClothingColor('${colorKey}', '${hex}')" class="w-7 h-7 rounded-full border-2 transition-all ${currentColor === hex ? 'border-brand-500 scale-110 shadow-md' : 'border-slate-200'}" style="background-color: ${hex};"></button>
+            `).join('');
+        }
+
+        function setClothingColor(key, hex) {
+            state.coordi[key] = hex;
+            renderStep5();
+        }
+
+        /* ================= OPTICAL ILLUSION CALCULATOR ================= */
+        function calculateIllusionScores(coordiObj = state.coordi) {
+            let vertical = 50;  // 세로로 길어보임
+            let shoulder = 50;  // 어깨/상체 강조
+            let leg = 50;       // 하체 강조
+            let face = 50;      // 얼굴 갸름함
+            let impression = 50;// 부드러움(0) <-> 활동적(50) <-> 단정함(100)
+
+            const reasons = [];
+
+            // 1. Top & Pattern Effect
+            if (coordiObj.top === 'tee_striped_v') {
+                vertical += 20;
+                face += 10;
+                reasons.push("세로 줄무늬 상의의 세로선이 시선을 위아래로 끌어주어 길어 보여요.");
+            } else if (coordiObj.top === 'tee_striped_h') {
+                shoulder += 25;
+                vertical -= 10;
+                reasons.push("가로 줄무늬 상의의 가로선이 상체를 넓어 보이게 해요.");
+            } else if (coordiObj.top === 'crop_top') {
+                vertical += 20;
+                leg += 25;
+                reasons.push("크롭 상의가 상체 비율을 줄여 다리가 길어 보여요.");
+            } else if (coordiObj.top === 'over_sweatshirt' || coordiObj.top === 'windbreaker') {
+                shoulder += 20;
+                impression = 40;
+                reasons.push("오버핏 상의의 부피감이 활동적이고 상체를 풍성해 보이게 해요.");
+            }
+
+            // 2. Neckline Effect
+            if (coordiObj.neck === 'vneck') {
+                face += 25;
+                vertical += 10;
+                reasons.push("V넥의 대각선 착시가 목과 얼굴을 길고 갸름하게 연출해요.");
+            } else if (coordiObj.neck === 'turtleneck') {
+                face -= 15;
+                reasons.push("터틀넥이 목을 감싸주어 긴 얼굴형에 균형을 잡아줘요.");
+            }
+
+            // 3. Pants & Skirt Silhouette
+            if (coordiObj.bottom === 'pants_flare') {
+                leg += 25;
+                vertical += 15;
+                reasons.push("나팔바지의 밑단 확장이 다리 선을 길어 보이게 연출해요.");
+            } else if (coordiObj.bottom === 'pants_wide') {
+                leg += 15;
+                reasons.push("와이드팬츠 실루엣이 하체 라인을 자연스럽게 커버해요.");
+            } else if (coordiObj.bottom === 'pants_skinny') {
+                leg += 10;
+            } else if (coordiObj.bottom === 'skirt_a') {
+                leg += 15;
+                impression = 30; // Soft
+                reasons.push("A라인 치마의 퍼지는 실루엣이 부드러운 인상을 줘요.");
+            }
+
+            // 4. One-Tone Color Contrast Effect
+            if (coordiObj.topColor.toLowerCase() === coordiObj.bottomColor.toLowerCase()) {
+                vertical += 20;
+                reasons.push("상·하의를 비슷한 톤(원톤)으로 맞추어 끊김 없이 세로로 이어져 보여요.");
+            }
+
+            // 5. Outer & Style
+            if (coordiObj.outer === 'long_coat') {
+                vertical += 20;
+                impression = 85;
+                reasons.push("롱코트의 수직 실루엣이 길고 단정한 인상을 연출해요.");
+            } else if (coordiObj.outer === 'jacket') {
+                shoulder += 15;
+                impression = 90;
+                reasons.push("재킷의 직선 어깨선이 단정하고 또렷한 인상을 줘요.");
+            }
+
+            if (coordiObj.top === 'shirt' || coordiObj.shoes === 'loafers') {
+                impression = Math.max(impression, 80);
+            }
+
+            return {
+                vertical: Math.min(100, Math.max(0, vertical)),
+                shoulder: Math.min(100, Math.max(0, shoulder)),
+                leg: Math.min(100, Math.max(0, leg)),
+                face: Math.min(100, Math.max(0, face)),
+                impression: Math.min(100, Math.max(0, impression)),
+                reasons: reasons.slice(0, 3)
+            };
+        }
+
+        function updateOpticalMeters() {
+            const scores = calculateIllusionScores();
+            const container = document.getElementById('meters-container');
+
+            const meters = [
+                { id: 'vertical', label: '세로 길어 보임', value: scores.vertical, targetGoals: ['tall'] },
+                { id: 'leg', label: '다리 길어 보임', value: scores.leg, targetGoals: ['longLegs'] },
+                { id: 'shoulder', label: '어깨·상체 강조', value: scores.shoulder, targetGoals: ['wideShoulders'] },
+                { id: 'face', label: '얼굴 갸름해 보임', value: scores.face, targetGoals: ['slenderFace'] },
+                { id: 'impression', label: '인상 (부드러움 ↔ 단정)', value: scores.impression, targetGoals: ['soft', 'active', 'neat'] }
+            ];
+
+            container.innerHTML = meters.map(m => {
+                const isTarget = state.goals.some(g => m.targetGoals.includes(g));
+                const barColor = isTarget ? 'bg-emerald-500' : 'bg-brand-500';
+
+                return `
+                    <div>
+                        <div class="flex justify-between items-center text-xs font-bold mb-1">
+                            <span class="${isTarget ? 'text-emerald-600 flex items-center gap-1' : 'text-slate-600'}">
+                                ${m.label} ${isTarget ? '🎯' : ''}
+                            </span>
+                            <span class="text-slate-500">${m.value}%</span>
+                        </div>
+                        <div class="w-full h-2.5 bg-slate-100 rounded-full overflow-hidden">
+                            <div class="meter-bar h-full ${barColor} rounded-full" style="width: ${m.value}%;"></div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+
+            // Render Reasons
+            const reasonsList = document.getElementById('illusion-reasons');
+            if (scores.reasons.length === 0) {
+                reasonsList.innerHTML = `<li>기본 실루엣으로 안정적인 밸런스를 유지하고 있습니다.</li>`;
+            } else {
+                reasonsList.innerHTML = scores.reasons.map(r => `<li>${r}</li>`).join('');
+            }
+        }
+
+        /* ================= A/B SAVING & COMPARISON ================= */
+        function saveAB(type) {
+            if (type === 'A') {
+                state.savedA = { coordi: { ...state.coordi }, avatar: { ...state.avatar } };
+                alert('현재 코디가 [A 안]으로 저장되었습니다!');
+            } else {
+                state.savedB = { coordi: { ...state.coordi }, avatar: { ...state.avatar } };
+                alert('현재 코디가 [B 안]으로 저장되었습니다!');
+            }
+        }
+
+        function openABCompareModal() {
+            if (!state.savedA || !state.savedB) {
+                alert('A안과 B안을 모두 저장한 후에 비교할 수 있습니다!');
+                return;
+            }
+
+            document.getElementById('modal-svg-a').innerHTML = generateAvatarSVG({ coordiOverride: state.savedA.coordi, avatarOverride: state.savedA.avatar });
+            document.getElementById('modal-svg-b').innerHTML = generateAvatarSVG({ coordiOverride: state.savedB.coordi, avatarOverride: state.savedB.avatar });
+
+            renderModalMeters('modal-meters-a', calculateIllusionScores(state.savedA.coordi));
+            renderModalMeters('modal-meters-b', calculateIllusionScores(state.savedB.coordi));
+
+            document.getElementById('ab-modal').classList.remove('hidden');
+        }
+
+        function closeABCompareModal() {
+            document.getElementById('ab-modal').classList.add('hidden');
+        }
+
+        function renderModalMeters(elementId, scores) {
+            document.getElementById(elementId).innerHTML = `
+                <div>세로 길어보임: <strong>${scores.vertical}%</strong></div>
+                <div>어깨 강조: <strong>${scores.shoulder}%</strong></div>
+                <div>다리 길어보임: <strong>${scores.leg}%</strong></div>
+                <div>얼굴 갸름함: <strong>${scores.face}%</strong></div>
+            `;
+        }
+
+        /* ================= STEP 6: DESCRIPTION & CARD ================= */
+        function renderStep6() {
+            document.getElementById('avatar-svg-container-6').innerHTML = generateAvatarSVG();
+
+            // Render Selected Goals
+            const goalBox = document.getElementById('card-goals');
+            if (state.goals.length === 0) {
+                goalBox.innerHTML = `<span class="text-xs text-slate-400">선택한 연출 목표가 없습니다.</span>`;
+            } else {
+                goalBox.innerHTML = state.goals.map(gid => {
+                    const gObj = GOAL_OPTIONS.find(o => o.id === gid);
+                    return `<span class="bg-brand-50 text-brand-600 border border-brand-200 px-2.5 py-1 rounded-lg font-bold">${gObj ? gObj.label : ''}</span>`;
+                }).join('');
+            }
+
+            // Render Card Meters
+            const scores = calculateIllusionScores();
+            document.getElementById('card-meters').innerHTML = `
+                <div class="flex justify-between"><span>세로 길어보임 효과</span><strong>${scores.vertical}%</strong></div>
+                <div class="flex justify-between"><span>다리 길어보임 효과</span><strong>${scores.leg}%</strong></div>
+                <div class="flex justify-between"><span>어깨·상체 강조 효과</span><strong>${scores.shoulder}%</strong></div>
+            `;
+
+            checkSelfChecklist();
+        }
+
+        function checkSelfChecklist() {
+            const name = document.getElementById('student-name-input').value || '무명 디자이너';
+            const desc = document.getElementById('coordi-desc-input').value;
+
+            document.getElementById('card-student-name').innerText = name;
+            document.getElementById('card-desc-text').innerText = desc || '설명글을 입력해 주세요.';
+
+            // Keywords check
+            const keywords = ['선', '색', '무늬', '재질', '실루엣'];
+            const foundCount = keywords.filter(kw => desc.includes(kw)).length;
+
+            const kwElem = document.getElementById('check-keywords');
+            if (foundCount >= 2) {
+                kwElem.className = 'flex items-center gap-1.5 text-emerald-600 font-bold';
+                kwElem.querySelector('.check-icon').innerText = '✅';
+            } else {
+                kwElem.className = 'flex items-center gap-1.5 text-slate-400';
+                kwElem.querySelector('.check-icon').innerText = '⚪';
+            }
+
+            // Length check
+            const lenElem = document.getElementById('check-length');
+            if (desc.trim().length >= 30) {
+                lenElem.className = 'flex items-center gap-1.5 text-emerald-600 font-bold';
+                lenElem.querySelector('.check-icon').innerText = '✅';
+            } else {
+                lenElem.className = 'flex items-center gap-1.5 text-slate-400';
+                lenElem.querySelector('.check-icon').innerText = '⚪';
+            }
+        }
+
+        /* ================= DOWNLOAD CARD AS PNG ================= */
+        function downloadCardPNG() {
+            const svgElement = document.querySelector('#avatar-svg-container-6 svg');
+            if (!svgElement) return;
+
+            const svgData = new XMLSerializer().serializeToString(svgElement);
+            const canvas = document.getElementById('export-canvas');
+            const ctx = canvas.getContext('2d');
+            const img = new Image();
+
+            const svgBlob = new Blob([svgData], { type: 'image/svg+xml;charset=utf-8' });
+            const url = URL.createObjectURL(svgBlob);
+
+            img.onload = function () {
+                canvas.width = 600;
+                canvas.height = 800;
+
+                // Background
+                ctx.fillStyle = '#ffffff';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+                // Draw Avatar
+                ctx.drawImage(img, 50, 100, 240, 320);
+
+                // Draw Text Box
+                ctx.fillStyle = '#1e293b';
+                ctx.font = 'bold 24px Noto Sans KR';
+                ctx.fillText('나를 살리는 코디 스타일 카드', 50, 60);
+
+                ctx.font = '16px Noto Sans KR';
+                const name = document.getElementById('student-name-input').value || '학생';
+                ctx.fillText(`디자이너: ${name}`, 380, 60);
+
+                ctx.font = 'bold 16px Noto Sans KR';
+                ctx.fillText('코디 연출 의도:', 50, 460);
+
+                ctx.font = '14px Noto Sans KR';
+                const desc = document.getElementById('coordi-desc-input').value || '코디 설명이 없습니다.';
+                ctx.fillText(desc.substring(0, 40), 50, 490);
+                if (desc.length > 40) ctx.fillText(desc.substring(40, 80), 50, 515);
+
+                URL.revokeObjectURL(url);
+
+                // Download Link
+                const a = document.createElement('a');
+                a.download = `${name}_코디_스타일_카드.png`;
+                a.href = canvas.toDataURL('image/png');
+                a.click();
+            };
+
+            img.src = url;
+        }
+
+        function resetAll() {
+            if (confirm('모든 설정을 초기화하고 처음으로 돌아갈까요?')) {
+                location.reload();
+            }
+        }
+
+        /* ================= INIT ================= */
+        window.onload = function() {
+            goToStep(1);
+        };
+    </script>
+</body>
+</html>
