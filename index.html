@@ -1,0 +1,901 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>나를 살리는 코디 랩</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Jua&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#fbf5f1;--card:#ffffff;--ink:#3a3138;--sub:#7b6f77;--line:#ece1da;
+  --rose:#e8647a;--rose-d:#c94a60;--rose2:#fde6ea;
+  --blue:#5867d6;--blue-d:#3f4cb0;--blue2:#e8ebfd;
+  --green:#22a06b;--green2:#dcf4e8;--gold:#f2b84b;
+  --shadow:0 8px 24px rgba(120,80,90,.10);
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{
+  font-family:'Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif;color:var(--ink);
+  background:radial-gradient(circle at 8% 0%,#ffe6ea 0,transparent 38%),radial-gradient(circle at 100% 35%,#e7ebff 0,transparent 40%),var(--bg);
+  min-height:100vh;line-height:1.55;
+}
+h1,h2,h3,.jua{font-family:'Jua','Noto Sans KR',sans-serif;font-weight:400;margin:0}
+button{font-family:inherit}
+header.top{position:sticky;top:0;z-index:20;background:rgba(251,245,241,.94);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);display:flex;align-items:center;gap:12px;padding:8px 16px}
+.logo{font-family:'Jua',sans-serif;font-size:20px;color:var(--rose);white-space:nowrap;cursor:pointer}
+nav.steps{display:flex;gap:6px;overflow-x:auto;flex:1;scrollbar-width:none}
+nav.steps::-webkit-scrollbar{display:none}
+nav.steps button{flex:none;border:2px solid var(--line);background:#fff;border-radius:999px;padding:6px 12px;font-size:14px;color:var(--sub);cursor:pointer;white-space:nowrap}
+nav.steps button b{display:inline-grid;place-items:center;width:20px;height:20px;border-radius:50%;background:var(--line);color:var(--ink);font-size:12px;margin-right:4px}
+nav.steps button.on{border-color:var(--rose);color:var(--rose-d);font-weight:700;background:var(--rose2)}
+nav.steps button.on b{background:var(--rose);color:#fff}
+main{max-width:1240px;margin:0 auto;padding:18px 16px 70px}
+.screen{display:none}
+.screen.active{display:block;animation:fade .35s ease}
+@keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.card{background:var(--card);border-radius:24px;box-shadow:var(--shadow);padding:18px}
+.head{margin:4px 2px 14px}
+.head h2{font-size:28px;color:var(--ink)}
+.head p{margin:4px 0 0;color:var(--sub)}
+.btn{border:none;border-radius:999px;padding:12px 22px;font-size:16px;font-weight:700;cursor:pointer;background:var(--rose);color:#fff;box-shadow:0 4px 0 var(--rose-d);transition:transform .1s;min-height:48px}
+.btn:active{transform:translateY(3px);box-shadow:0 1px 0 var(--rose-d)}
+.btn.blue{background:var(--blue);box-shadow:0 4px 0 var(--blue-d)}
+.btn.ghost{background:#fff;color:var(--ink);border:2px solid var(--line);box-shadow:none}
+.btn.small{padding:8px 14px;font-size:14px;min-height:40px}
+.btn.big{font-size:20px;padding:15px 36px}
+.btn:disabled{opacity:.45;cursor:default}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{border:2px solid var(--line);background:#fff;border-radius:999px;padding:8px 14px;font-size:15px;cursor:pointer;min-height:44px;color:var(--ink);transition:all .15s}
+.chip:hover{border-color:#f2b3bf}
+.chip.on{border-color:var(--rose);background:var(--rose2);color:#a8293f;font-weight:700;box-shadow:0 0 0 3px rgba(232,100,122,.16)}
+.sws{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.sw{width:42px;height:42px;border-radius:50%;border:3px solid #fff;box-shadow:0 0 0 1.5px #d9cdc6;cursor:pointer;padding:0;position:relative;flex:none}
+.sw.on{box-shadow:0 0 0 3.5px var(--rose)}
+.sw.on::after{content:"✓";position:absolute;inset:0;display:grid;place-items:center;font-weight:700;font-size:17px;color:#fff;text-shadow:0 0 3px rgba(0,0,0,.6)}
+.sw.star::before{content:"★";position:absolute;right:-6px;top:-7px;font-size:14px;color:var(--gold);text-shadow:0 0 2px #fff}
+.opt{padding:10px 0;border-bottom:1px dashed var(--line)}
+.opt:last-child{border-bottom:none}
+.opt h3{font-size:18px;margin-bottom:8px}
+.opt .sub{font-size:13px;color:var(--sub);margin:-4px 0 8px}
+.grid2{display:grid;grid-template-columns:minmax(260px,400px) 1fr;gap:18px;align-items:start}
+.navrow{display:flex;justify-content:space-between;gap:10px;margin-top:18px;flex-wrap:wrap}
+.hint{color:var(--sub);font-size:14px;margin:6px 0}
+.guide{background:#fff8e8;border:2px dashed #f4d58d;border-radius:16px;padding:10px 14px;color:#6d5521;font-size:15px}
+/* stage */
+.stage{background:linear-gradient(180deg,#fff 0%,#fff9f6 78%,#f4e6df 78%,#f1e0d8 100%);display:flex;flex-direction:column;align-items:center;gap:8px;position:relative}
+.stage .av{width:100%;max-width:300px;aspect-ratio:200/440}
+.stage .av svg{width:100%;height:100%;display:block}
+.stage .mirror{position:absolute;top:12px;left:14px;font-size:12px;color:var(--sub);background:#fff;border:1px solid var(--line);border-radius:999px;padding:2px 10px}
+/* hero */
+.hero{display:grid;grid-template-columns:1.3fr 1fr;gap:20px;align-items:center;padding:30px}
+.tag{display:inline-block;background:var(--blue2);color:var(--blue-d);border-radius:999px;padding:4px 12px;font-size:13px;font-weight:700}
+.hero h1{font-size:46px;color:var(--rose);margin:10px 0 6px;line-height:1.15}
+.msg{font-size:20px;margin:8px 0 18px}
+.msg b{background:linear-gradient(transparent 60%,#ffd6de 60%)}
+.flow{list-style:none;padding:0;margin:0 0 22px;display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+.flow li{background:#fff7f4;border:2px solid var(--line);border-radius:18px;padding:12px 14px;font-size:15px}
+.flow li b{display:block;font-family:'Jua',sans-serif;font-weight:400;font-size:18px;color:var(--rose-d)}
+.hero-av{display:flex;gap:6px;justify-content:center}
+.hero-av svg{width:46%;max-width:190px;height:auto}
+.note{font-size:13px;color:var(--sub);margin-top:12px}
+/* drape */
+.dview{display:flex;gap:12px;justify-content:center}
+.dslot{flex:1;max-width:340px;text-align:center;border-radius:20px;padding:8px;border:3px solid transparent;cursor:pointer}
+.dslot.active{border-color:var(--blue);background:var(--blue2)}
+.dslot svg{width:100%;height:auto;display:block;border-radius:16px;background:#fbf7f4}
+.dslot .nm{font-weight:700;margin-top:6px}
+.dslot .im{font-size:14px;color:var(--sub);min-height:22px}
+.palg h3{font-size:17px;margin:12px 0 8px}
+.mycols{display:flex;gap:10px;flex-wrap:wrap;margin-top:8px}
+.mycol{display:flex;align-items:center;gap:6px;border:2px solid var(--line);border-radius:999px;padding:4px 10px 4px 4px;background:#fff}
+.mycol i{width:28px;height:28px;border-radius:50%;display:block;box-shadow:0 0 0 1px #ddd}
+.mycol button{border:none;background:none;cursor:pointer;color:var(--sub);font-size:16px}
+.info{margin-top:12px;padding:12px 14px;background:#fff7f4;border-radius:16px;font-size:16px;min-height:50px}
+/* goals */
+.ggroup{margin-bottom:16px}
+.ggroup h3{font-size:19px;margin-bottom:10px}
+.gbtn{border:2px solid var(--line);background:#fff;border-radius:20px;padding:14px 18px;font-size:17px;font-weight:700;cursor:pointer;min-height:56px;color:var(--ink)}
+.gbtn.on{border-color:var(--rose);background:var(--rose2);color:#a8293f;box-shadow:0 0 0 3px rgba(232,100,122,.16)}
+.gbtn.on::before{content:"✔ "}
+.gsum{font-size:17px;margin-top:6px}
+/* coordi */
+.coordi{display:grid;grid-template-columns:minmax(230px,300px) 1fr minmax(260px,330px);gap:16px;align-items:start}
+.coordi .stage{position:sticky;top:68px}
+.tabs{display:flex;gap:6px;margin-bottom:12px;background:#f7efea;padding:5px;border-radius:999px}
+.tabs button{flex:1;border:none;background:none;border-radius:999px;padding:10px 6px;font-size:16px;font-weight:700;color:var(--sub);cursor:pointer;min-height:44px}
+.tabs button.on{background:#fff;color:var(--rose-d);box-shadow:0 2px 8px rgba(0,0,0,.08)}
+.psec{margin-bottom:14px}
+.psec h3{font-size:17px;margin-bottom:8px}
+.palrow{margin-bottom:6px}
+.palrow small{display:block;color:var(--sub);font-size:12px;margin-bottom:4px}
+.abrow{display:flex;gap:8px;width:100%}
+.abrow .btn{flex:1;padding:10px 8px;font-size:15px}
+.goalpills{display:flex;flex-wrap:wrap;gap:6px;justify-content:center}
+.pill{background:var(--rose2);color:#a8293f;border-radius:999px;padding:3px 10px;font-size:13px;font-weight:700}
+.pill.met{background:var(--green2);color:#11744a}
+details.tips{margin-top:8px;background:#f8f6ff;border-radius:16px;padding:10px 14px}
+details.tips summary{cursor:pointer;font-weight:700;color:var(--blue-d)}
+details.tips ul{margin:8px 0 0;padding-left:18px;font-size:14px}
+/* meters */
+.meters h3{font-size:19px;margin-bottom:6px}
+.meter{margin:12px 0;padding:8px 10px;border-radius:14px;transition:background .3s}
+.meter .lab{display:flex;justify-content:space-between;align-items:center;font-size:15px;font-weight:700;gap:6px}
+.meter .lab .gtag{font-size:11px;background:var(--rose2);color:#a8293f;border-radius:999px;padding:1px 7px;margin-left:4px}
+.bar{height:14px;background:#f1e8e3;border-radius:99px;overflow:hidden;margin-top:5px;position:relative}
+.bar i{display:block;height:100%;width:50%;background:#bdb1b9;border-radius:99px;transition:width .5s ease,background .3s}
+.bar .mid{position:absolute;left:50%;top:0;bottom:0;width:2px;background:rgba(0,0,0,.12)}
+.meter.goal .bar i{background:#f2a6b4}
+.meter.met{background:var(--green2)}
+.meter.met .bar i{background:var(--green)}
+.meter.met .lab{color:#11744a}
+.dl{font-size:12px;font-weight:700;border-radius:999px;padding:0 6px;background:#eee;color:#666;animation:pop .5s}
+.dl.good{background:var(--green);color:#fff}
+@keyframes pop{0%{transform:scale(.6)}60%{transform:scale(1.15)}100%{transform:scale(1)}}
+.imp{display:grid;grid-template-columns:auto 1fr auto;gap:4px 8px;align-items:center;font-size:13px;margin-top:6px}
+.imp .bar{margin:0;height:10px}
+.imp .on{font-weight:700;color:var(--ink)}
+.seesaw{margin-top:8px;font-size:12px;color:var(--sub);display:flex;justify-content:space-between}
+.reasons{margin-top:12px;background:#fff7f4;border-radius:16px;padding:12px 14px}
+.reasons h4{margin:0 0 6px;font-size:15px}
+.reasons ol{margin:0;padding-left:20px;font-size:14px}
+.reasons li{margin:4px 0}
+.tip{margin-top:10px;background:#eef9f3;border-radius:16px;padding:10px 14px;font-size:14px;color:#185c3f}
+/* compare */
+.cmpgrid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.plan{text-align:center}
+.plan h3{font-size:24px;color:var(--rose-d)}
+.plan .av{max-width:230px;margin:0 auto;aspect-ratio:200/440}
+.plan .av svg{width:100%;height:100%}
+.plan ul{text-align:left;font-size:14px;padding-left:18px;margin:8px 0}
+.plan .score{display:inline-block;margin:6px 0;padding:4px 12px;border-radius:999px;background:var(--blue2);color:var(--blue-d);font-weight:700}
+.plan.best{box-shadow:0 0 0 4px var(--green),var(--shadow)}
+.plan .best-badge{display:inline-block;background:var(--green);color:#fff;border-radius:999px;padding:3px 12px;font-size:13px;font-weight:700}
+.empty{padding:40px 20px;text-align:center;color:var(--sub)}
+.vs{width:100%;border-collapse:collapse;font-size:14px;margin-top:6px}
+.vs td,.vs th{padding:6px 4px;border-bottom:1px solid var(--line);text-align:center}
+.vs th{font-weight:700;color:var(--sub);font-size:13px}
+.vs td.w{color:var(--green);font-weight:700}
+/* card screen */
+textarea,input[type=text]{width:100%;font:inherit;font-size:16px;border:2px solid var(--line);border-radius:16px;padding:12px;background:#fff;color:var(--ink)}
+textarea:focus,input:focus{outline:none;border-color:var(--rose)}
+textarea{min-height:130px;resize:vertical}
+.check{list-style:none;padding:0;margin:10px 0}
+.check li{padding:6px 0;font-size:15px}
+.check li::before{content:"○";display:inline-block;width:24px;color:#bbb;font-weight:700}
+.check li.ok::before{content:"✔";color:var(--green)}
+.check li.ok{color:#11744a;font-weight:700}
+.words{display:flex;gap:6px;flex-wrap:wrap;margin:4px 0 0 24px}
+.words span{font-size:13px;border-radius:999px;padding:2px 10px;background:#f2ece8;color:var(--sub)}
+.words span.on{background:var(--green2);color:#11744a;font-weight:700}
+.cardprev > svg{width:100%;height:auto;display:block;border-radius:18px;box-shadow:var(--shadow)}
+.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%) translateY(30px);background:#3a3138;color:#fff;padding:12px 20px;border-radius:999px;font-size:15px;opacity:0;transition:all .3s;z-index:50;pointer-events:none;max-width:90vw;text-align:center}
+.toast.show{opacity:1;transform:translateX(-50%)}
+@media (max-width:1100px){
+  .coordi{grid-template-columns:minmax(220px,300px) 1fr}
+  .coordi .meters{grid-column:1 / -1}
+}
+@media (max-width:820px){
+  .grid2,.hero{grid-template-columns:1fr}
+  .hero{padding:20px}
+  .hero h1{font-size:36px}
+  .hero-av{order:-1}
+  .coordi{grid-template-columns:1fr}
+  .coordi .stage{top:52px;z-index:5;flex-direction:row;flex-wrap:wrap;justify-content:center;padding:10px}
+  .coordi .stage .av{max-width:none;width:auto;height:36vh}
+  .stage .av{max-width:240px}
+  .flow{grid-template-columns:1fr}
+  .cmpgrid{gap:10px}
+  .head h2{font-size:24px}
+  .logo{font-size:17px}
+}
+@media (max-width:480px){
+  .cmpgrid{grid-template-columns:1fr 1fr}
+  .plan ul{font-size:12px}
+  .sw{width:38px;height:38px}
+}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="logo" data-go="start">👗 나를 살리는 코디 랩</div>
+  <nav class="steps" id="steps" aria-label="활동 단계"></nav>
+</header>
+
+<main>
+<!-- ① 시작 -->
+<section class="screen active" id="s-start">
+  <div class="card hero">
+    <div>
+      <span class="tag">중학교 가정 · 의복 디자인 요소와 착시 효과</span>
+      <h1>나를 살리는 코디 랩</h1>
+      <p class="msg">몸을 고치는 게 아니라,<br><b>옷의 효과를 알고 나를 표현하는 것!</b></p>
+      <ol class="flow">
+        <li><b>1. 아바타 만들기</b>나와 비슷한 얼굴형·피부톤·체형의 캐릭터를 만들어요.</li>
+        <li><b>2. 색 대어 보기</b>얼굴 아래 색 천을 대어 보고 인상 차이를 관찰해요.</li>
+        <li><b>3. 목표 고르고 코디하기</b>원하는 연출 목표를 고르고 선·색·무늬·재질·실루엣으로 코디해요.</li>
+        <li><b>4. 비교하고 카드 만들기</b>A안·B안을 비교하고 나의 코디 카드를 완성해요.</li>
+      </ol>
+      <button class="btn big" data-go="avatar">시작하기 →</button>
+      <p class="note">📷 사진이나 카메라는 사용하지 않아요. 캐릭터로만 활동해요.</p>
+    </div>
+    <div class="hero-av" id="heroAv"></div>
+  </div>
+</section>
+
+<!-- ② 아바타 -->
+<section class="screen" id="s-avatar">
+  <div class="head"><h2>1. 나의 아바타 만들기</h2><p>정답은 없어요. 나와 비슷하게, 또는 원하는 캐릭터로 만들어도 좋아요.</p></div>
+  <div class="grid2">
+    <div class="card stage"><span class="mirror">피팅룸 거울</span><div class="av" id="avStage"></div></div>
+    <div class="card">
+      <div class="opt"><h3>얼굴형</h3><div class="chips" id="o-face"></div></div>
+      <div class="opt"><h3>피부톤</h3><p class="sub">밝은 톤 → 어두운 톤</p><div class="sws" id="o-skin"></div><div class="chips" id="o-under" style="margin-top:10px"></div></div>
+      <div class="opt"><h3>머리 모양</h3><div class="chips" id="o-hair"></div></div>
+      <div class="opt"><h3>머리 색</h3><div class="sws" id="o-hairc"></div></div>
+      <div class="opt"><h3>키</h3><div class="chips" id="o-height"></div></div>
+      <div class="opt"><h3>어깨</h3><div class="chips" id="o-shoulder"></div></div>
+      <div class="opt"><h3>체형 실루엣</h3><div class="chips" id="o-body"></div></div>
+    </div>
+  </div>
+  <div class="navrow"><button class="btn ghost" data-go="start">← 처음 화면</button><button class="btn" data-go="drape">다음: 색 대어 보기 →</button></div>
+</section>
+
+<!-- ③ 색 대어 보기 -->
+<section class="screen" id="s-drape">
+  <div class="head"><h2>2. 색 대어 보기</h2><p>얼굴 아래에 색 천을 대어 보세요. 눈 밑, 볼의 생기, 입술 색이 어떻게 달라 보이는지 관찰해요.</p></div>
+  <div class="grid2">
+    <div class="card">
+      <div class="chips" style="margin-bottom:12px"><button class="chip on" id="dmSingle">하나씩 보기</button><button class="chip" id="dmCompare">비교하기</button></div>
+      <div id="drapeView"></div>
+      <div class="info" id="drapeInfo"></div>
+    </div>
+    <div class="card">
+      <div id="drapePal"></div>
+      <div class="palg" style="margin-top:14px">
+        <h3>⭐ 나의 색 <small style="font-family:'Noto Sans KR';font-size:13px;color:var(--sub)">내 얼굴이 더 환해 보이는 색, 최대 3개</small></h3>
+        <div class="mycols" id="myColors"></div>
+        <p class="hint">저장한 색은 코디할 때 색상표 맨 앞에 나와요.</p>
+      </div>
+    </div>
+  </div>
+  <div class="navrow"><button class="btn ghost" data-go="avatar">← 아바타</button><button class="btn" data-go="goal">다음: 연출 목표 →</button></div>
+</section>
+
+<!-- ④ 목표 -->
+<section class="screen" id="s-goal">
+  <div class="head"><h2>3. 연출 목표 고르기</h2><p>오늘 코디로 어떤 모습을 연출하고 싶은지 <b>최대 2개</b>까지 골라요.</p></div>
+  <div class="card" id="goalBox"></div>
+  <div class="navrow"><button class="btn ghost" data-go="drape">← 색 대어 보기</button><button class="btn" data-go="coordi">다음: 코디하기 →</button></div>
+</section>
+
+<!-- ⑤⑥ 코디 + 미터 -->
+<section class="screen" id="s-coordi">
+  <div class="head"><h2>4. 코디하기 & 효과 미터</h2><p id="goalLine"></p></div>
+  <div class="coordi">
+    <div class="card stage">
+      <div class="av" id="cdStage"></div>
+      <div class="goalpills" id="cdGoals"></div>
+      <div class="abrow"><button class="btn blue small" id="saveA">A안 저장</button><button class="btn blue small" id="saveB">B안 저장</button></div>
+    </div>
+    <div class="card">
+      <div class="tabs" id="cdTabs"></div>
+      <div id="cdPanel"></div>
+      <details class="tips"><summary>💡 착시 원리 살펴보기</summary>
+        <ul>
+          <li><b>선</b>: 세로선은 길고 가늘어 보이고, 가로선은 넓고 짧아 보여요.</li>
+          <li><b>색</b>: 밝은 색·따뜻한 색은 커 보이고(팽창), 어두운 색·차가운 색은 작아 보여요(수축).</li>
+          <li><b>색 배치</b>: 위아래를 비슷한 색(원톤)으로 하면 세로로 이어져 키가 커 보여요.</li>
+          <li><b>실루엣</b>: 크롭 상의·나팔바지는 다리를 길어 보이게, 와이드팬츠는 하체 볼륨을 감싸요.</li>
+          <li><b>네크라인</b>: V넥은 얼굴을 갸름하게, 터틀넥·라운드넥은 얼굴을 짧아 보이게 해요.</li>
+          <li><b>재질</b>: 니트·가디건은 부드럽게, 셔츠·재킷은 단정하게, 추리닝·후드는 활동적으로 보여요.</li>
+        </ul>
+      </details>
+    </div>
+    <div class="card meters" id="meters"></div>
+  </div>
+  <div class="navrow"><button class="btn ghost" data-go="goal">← 연출 목표</button><button class="btn" data-go="compare">다음: A/B 비교 →</button></div>
+</section>
+
+<!-- ⑦ 비교 -->
+<section class="screen" id="s-compare">
+  <div class="head"><h2>5. A안 · B안 비교하기</h2><p>두 코디를 나란히 놓고, 어느 쪽이 내 목표에 더 가까운지 살펴봐요.</p></div>
+  <div id="cmpView"></div>
+  <div class="navrow"><button class="btn ghost" data-go="coordi">← 코디하기</button><button class="btn" data-go="card">다음: 코디 카드 →</button></div>
+</section>
+
+<!-- ⑧ 카드 -->
+<section class="screen" id="s-card">
+  <div class="head"><h2>6. 나의 코디 설명과 카드</h2><p>어떤 목표를 위해 어떤 디자인 요소를 썼는지 설명해 보세요.</p></div>
+  <div class="grid2">
+    <div class="card">
+      <div class="opt"><h3>이름(닉네임)</h3><input type="text" id="nameIn" maxlength="12" placeholder="예) 코디왕 민지"></div>
+      <div class="opt"><h3>나의 코디 설명</h3>
+        <textarea id="descIn" maxlength="200" placeholder="예) 키가 커 보이도록 상의와 하의를 비슷한 색으로 맞추고, 세로 줄무늬의 세로선으로 몸이 길어 보이게 했어요."></textarea>
+        <ul class="check" id="checkList"></ul>
+      </div>
+      <div class="opt"><h3>현재 코디 불러오기</h3>
+        <div class="chips"><button class="chip" id="useCur">지금 코디</button><button class="chip" id="useA">A안</button><button class="chip" id="useB">B안</button></div>
+        <p class="hint">카드에는 선택한 코디가 들어가요.</p>
+      </div>
+    </div>
+    <div class="card">
+      <div class="cardprev" id="cardPrev"></div>
+      <div class="navrow"><button class="btn" id="savePng">🖼 이미지로 저장</button><button class="btn ghost" id="restart">↺ 처음부터 다시</button></div>
+    </div>
+  </div>
+</section>
+</main>
+<div class="toast" id="toast"></div>
+
+<script>
+'use strict';
+/* ========== 기본 도구 ========== */
+const $=s=>document.querySelector(s);
+const f1=n=>Math.round(n*10)/10;
+const P=p=>f1(p[0])+','+f1(p[1]);
+const lerp=(a,b,t)=>a+(b-a)*Math.max(0,Math.min(1,t));
+const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+function hasBatchim(w){const c=w.charCodeAt(w.length-1);return c>=0xAC00&&c<=0xD7A3&&(c-0xAC00)%28!==0;}
+const wa=w=>w+(hasBatchim(w)?'과':'와');
+const iga=w=>w+(hasBatchim(w)?'이':'가');
+function hexRgb(h){h=h.replace('#','');return[parseInt(h.slice(0,2),16),parseInt(h.slice(2,4),16),parseInt(h.slice(4,6),16)];}
+function lum(h){const[r,g,b]=hexRgb(h).map(v=>v/255);return .299*r+.587*g+.114*b;}
+function hsl(hex){const[r,g,b]=hexRgb(hex).map(v=>v/255);const mx=Math.max(r,g,b),mn=Math.min(r,g,b);let h=0,s=0;const l=(mx+mn)/2;
+  if(mx!==mn){const d=mx-mn;s=l>.5?d/(2-mx-mn):d/(mx+mn);
+    if(mx===r)h=((g-b)/d+(g<b?6:0));else if(mx===g)h=(b-r)/d+2;else h=(r-g)/d+4;h*=60;}
+  return{h,s,l};}
+function warmth(hex){const{h,s}=hsl(hex);if(s<.2)return 0;if(h<=70||h>=330)return 1;if(h>=160&&h<=290)return -1;return 0;}
+function shade(hex,a){const f=v=>Math.round(clamp(a<0?v*(1+a):v+(255-v)*a,0,255)).toString(16).padStart(2,'0');const[r,g,b]=hexRgb(hex);return'#'+f(r)+f(g)+f(b);}
+function dist(a,b){const A=hexRgb(a),B=hexRgb(b);return Math.hypot(A[0]-B[0],A[1]-B[1],A[2]-B[2]);}
+const stroke=c=>lum(c)>.86?'#cbc1ba':shade(c,-.32);
+const expand=c=>(lum(c)-.45)*30+warmth(c)*4;
+function toast(m){const t=$('#toast');t.textContent=m;t.classList.add('show');clearTimeout(toast.t);toast.t=setTimeout(()=>t.classList.remove('show'),2200);}
+
+/* ========== 데이터 ========== */
+const FACES=[['round','둥근형'],['oval','갸름한형'],['square','각진형'],['long','긴형'],['heart','하트형']];
+const SKIN={warm:['#fbe4cc','#f3cfac','#e2b087','#c88e62','#9e6a43','#6c4429'],cool:['#fbe2dd','#f1c9bf','#dfa996','#c38771','#986352','#683f35']};
+const UNDER=[['warm','노란 기'],['cool','붉은 기']];
+const HAIRS=[[0,'짧은 머리'],[1,'단발'],[2,'긴 머리'],[3,'묶은 머리']];
+const HAIR_COLORS=[['검정','#231c19'],['짙은 갈색','#4a2f22'],['밝은 갈색','#8a5a3b'],['적갈색','#6e2f24']];
+const HEIGHTS=[['short','작은 편'],['mid','보통'],['tall','큰 편']];
+const SHOULDERS=[['narrow','좁은 편'],['mid','보통'],['wide','넓은 편']];
+const BODIES=[['straight','일자형'],['upper','상체 볼륨형'],['lower','하체 볼륨형'],['curve','곡선형']];
+const DRAPES=[
+ {g:'🌞 따뜻한 색',list:[['코럴','#FF7F66','생기 있고 따뜻한 인상'],['피치','#FFBE98','화사하고 다정한 인상'],['머스터드','#E1AD21','밝고 경쾌한 인상'],['오렌지','#F28C28','활발하고 에너지 넘치는 인상'],['토마토 레드','#E0462F','힘 있고 열정적인 인상'],['올리브','#8A8F3C','차분하고 자연스러운 인상'],['카멜','#C19A6B','편안하고 포근한 인상'],['초콜릿 브라운','#6B4226','깊고 안정감 있는 인상']]},
+ {g:'❄️ 차가운 색',list:[['라벤더','#B9A7E0','부드럽고 맑은 인상'],['베이비 핑크','#F4B6C8','사랑스럽고 여린 인상'],['스카이 블루','#9CCBEB','시원하고 깨끗한 인상'],['민트','#9FDCC9','산뜻하고 상쾌한 인상'],['로열 블루','#2E5BBA','선명하고 시원한 인상'],['푸시아','#D6338A','또렷하고 화려한 인상'],['버건디','#7D1F3B','깊고 성숙한 인상'],['네이비','#1F2F5C','차분하고 믿음직한 인상']]},
+ {g:'⚪ 무채색',list:[['흰색','#FFFFFF','깨끗하고 밝은 인상'],['회색','#9A9A9A','부드럽고 차분한 인상'],['차콜','#3E3E44','세련되고 묵직한 인상'],['검정','#111111','또렷하고 단정한 인상']]}
+];
+const BASE_COLORS=[['흰색','#FFFFFF'],['아이보리','#F3EAD7'],['베이지','#D9C3A0'],['연회색','#C9CCD1'],['회색','#8A8E96'],['검정','#1E1E22'],['네이비','#233A6B'],['데님','#4F6E9E'],['하늘색','#9CCBEB'],['카키','#6E7046'],['브라운','#7A4E2D'],['버건디','#7D1F3B'],['코럴','#FF7F66'],['노랑','#F2C94C']];
+const CNAME={};BASE_COLORS.forEach(([n,c])=>CNAME[c]=n);DRAPES.forEach(g=>g.list.forEach(([n,c])=>{if(!CNAME[c])CNAME[c]=n;}));
+const DRAPE_INFO={};DRAPES.forEach(g=>g.list.forEach(([n,c,t])=>DRAPE_INFO[c]={n,t}));
+const cname=c=>CNAME[c]||'선택한 색';
+const GOALS=[['tall','키가 커 보이게'],['legs','다리가 길어 보이게'],['shWide','어깨가 넓어 보이게'],['shNarrow','어깨가 좁아 보이게'],['balance','상체와 하체 균형 맞추기'],['face','얼굴이 갸름해 보이게'],['soft','부드러운 인상'],['active','활동적인 인상'],['neat','단정한 인상']];
+const GOAL_GROUPS=[['📐 몸의 비율과 선',['tall','legs','shWide','shNarrow','balance']],['🙂 얼굴',['face']],['✨ 인상',['soft','active','neat']]];
+const GNAME=Object.fromEntries(GOALS);
+const TOPS=[['shirt','셔츠'],['hoodie','후드티'],['windbreaker','바람막이'],['hstripe','가로 줄무늬 티셔츠'],['vstripe','세로 줄무늬 티셔츠'],['tee','무지 티셔츠'],['knit','니트'],['oversize','오버핏 맨투맨'],['crop','크롭 상의']];
+const BOTTOMS=[['flare','나팔바지'],['skinny','스키니바지'],['straight','일자 청바지'],['wide','와이드팬츠'],['jogger','추리닝 바지'],['shorts','반바지'],['askirt','A라인 치마'],['hskirt','H라인 치마']];
+const OUTERS=[['none','없음'],['jacket','재킷'],['cardigan','가디건'],['coat','롱코트']];
+const SHOES=[['sneakers','운동화'],['loafer','로퍼'],['sandal','샌들'],['boots','부츠']];
+const NECKS=[['round','라운드넥'],['v','V넥'],['turtle','터틀넥']];
+const NECKABLE=['tee','hstripe','vstripe','knit','oversize','crop'];
+const LBL={};[TOPS,BOTTOMS,OUTERS,SHOES,NECKS].forEach(a=>a.forEach(([k,n])=>LBL[k]=n));
+const AVKEYS=['face','skinLv','under','hair','hairColor','height','shoulder','body'];
+
+/* ========== 상태 ========== */
+function defaultState(){return{face:'round',skinLv:2,under:'warm',hair:1,hairColor:0,height:'mid',shoulder:'mid',body:'straight',
+  myColors:[],goals:[],drape:'#FF7F66',dmode:'single',dslots:[null,null],dactive:0,
+  o:{top:'tee',topC:'#FFFFFF',neck:'round',bottom:'straight',bottomC:'#4F6E9E',outer:'none',outerC:'#D9C3A0',shoes:'sneakers',shoesC:'#FFFFFF'},
+  A:null,B:null,desc:'',name:'',cardSrc:'cur'};}
+let S=defaultState();
+let UI={screen:'start',tab:'top'};
+let LAST=null;
+const avOf=st=>{const a={};AVKEYS.forEach(k=>a[k]=st[k]);return a;};
+
+/* ========== SVG 그리기 ========== */
+// 부드러운 닫힌 곡선(점의 세 번째 값이 1이면 뾰족한 모서리)
+function sp(pts){const n=pts.length,Q=i=>pts[(i+n)%n],k=.17;let d='M'+P(pts[0]);
+  for(let i=0;i<n;i++){const p0=Q(i-1),p1=Q(i),p2=Q(i+1),p3=Q(i+2);
+    const c1=p1[2]?[p1[0],p1[1]]:[p1[0]+(p2[0]-p0[0])*k,p1[1]+(p2[1]-p0[1])*k];
+    const c2=p2[2]?[p2[0],p2[1]]:[p2[0]-(p3[0]-p1[0])*k,p2[1]-(p3[1]-p1[1])*k];
+    d+=`C${P(c1)} ${P(c2)} ${P(p2)}`;}
+  return d+'Z';}
+function G(st){
+  const hf={short:.88,mid:1,tall:1.1}[st.height];
+  const B={straight:{s:0,c:0,w:0,h:0},upper:{s:3,c:6,w:2,h:-3},lower:{s:-2,c:-2,w:0,h:8},curve:{s:0,c:3,w:-5,h:5}}[st.body];
+  const sw={narrow:33,mid:38,wide:44}[st.shoulder]+B.s;
+  const chest=Math.min(sw-2,31+B.c),waist=26+B.w,hip=31+B.h;
+  const shY=114,T=98*hf,waistY=shY+T*.6,hipY=shY+T,L=162*hf,kneeY=hipY+L*.48,footY=hipY+L;
+  return{sw,chest,waist,hip,shY,T,waistY,hipY,L,kneeY,footY,dy:428-(footY+8)};
+}
+const FACE_PATH={
+  round:'M70,60 C70,36 84,28 100,28 C116,28 130,36 130,60 C130,82 116,96 100,96 C84,96 70,82 70,60Z',
+  oval:'M72,58 C72,36 85,27 100,27 C115,27 128,36 128,58 C128,78 116,98 100,99 C84,98 72,78 72,58Z',
+  square:'M71,56 C71,35 84,28 100,28 C116,28 129,35 129,56 L129,76 C129,86 118,95 100,96 C82,95 71,86 71,76Z',
+  long:'M74,56 C74,32 86,24 100,24 C114,24 126,32 126,56 L126,78 C126,92 114,102 100,102 C86,102 74,92 74,78Z',
+  heart:'M70,54 C70,34 84,27 100,27 C116,27 130,34 130,54 C130,72 112,92 100,99 C88,92 70,72 70,54Z'
+};
+function hairBack(i,c){const a=`fill="${c}" stroke="${shade(c,-.25)}" stroke-width="1.2"`;
+  if(i===0)return`<path ${a} d="M68,64 C62,30 82,16 100,16 C118,16 138,30 132,64Z"/>`;
+  if(i===1)return`<path ${a} d="M64,62 C60,30 80,16 100,16 C120,16 140,30 136,62 L138,100 C132,105 124,105 119,100 L117,80 L83,80 L81,100 C76,105 68,105 62,100Z"/>`;
+  if(i===2)return`<path ${a} d="M64,62 C60,30 80,16 100,16 C120,16 140,30 136,62 C138,100 142,140 146,170 C134,176 124,174 118,168 L118,90 L82,90 L82,168 C76,174 66,176 54,170 C58,140 62,100 64,62Z"/>`;
+  return`<path ${a} d="M118,30 C148,28 154,72 145,112 C141,126 133,130 128,125 C138,96 136,62 115,44Z"/><path ${a} d="M66,62 C62,30 82,16 100,16 C118,16 138,30 134,62Z"/>`;}
+function hairFront(i,c){const a=`fill="${c}" stroke="${shade(c,-.25)}" stroke-width="1.2" stroke-linejoin="round"`;
+  if(i===0)return`<path ${a} d="M68,62 C64,34 80,18 100,18 C120,18 136,34 132,62 C130,52 126,46 122,44 C114,40 106,44 100,40 C92,46 80,42 74,48 C71,52 69,57 68,62Z"/>`;
+  if(i===1)return`<path ${a} d="M68,60 C66,32 82,18 100,18 C118,18 134,32 132,60 C128,50 124,44 118,42 C110,46 98,47 88,44 C80,44 72,50 68,60Z"/>`;
+  if(i===2)return`<path ${a} d="M68,64 C64,32 82,17 100,17 C120,17 136,32 132,64 C130,54 126,46 120,40 C112,46 96,40 90,34 C84,42 74,48 68,64Z"/>`;
+  return`<path ${a} d="M68,60 C64,32 82,18 100,18 C118,18 136,32 132,60 C128,46 116,36 100,36 C84,36 72,46 68,60Z"/><circle cx="121" cy="37" r="4" fill="${shade(c,.35)}" stroke="${shade(c,-.25)}"/>`;}
+function headSvg(st,skin,hc){const sd=shade(skin,-.16),br=shade(hc,-.1);
+  return`<ellipse cx="71" cy="64" rx="5" ry="7" fill="${skin}" stroke="${sd}"/><ellipse cx="129" cy="64" rx="5" ry="7" fill="${skin}" stroke="${sd}"/>
+  <path d="${FACE_PATH[st.face]}" fill="${skin}" stroke="${sd}" stroke-width="1.2"/>
+  <path d="M82,54 Q88,50.5 94,53.5 M106,53.5 Q112,50.5 118,54" stroke="${br}" stroke-width="2.2" fill="none" stroke-linecap="round"/>
+  <ellipse cx="88" cy="63" rx="3.3" ry="4.1" fill="#2b2220"/><ellipse cx="112" cy="63" rx="3.3" ry="4.1" fill="#2b2220"/>
+  <circle cx="89.2" cy="61.6" r="1.2" fill="#fff"/><circle cx="113.2" cy="61.6" r="1.2" fill="#fff"/>
+  <path d="M100,67 Q98.3,72 101,72.6" stroke="${sd}" stroke-width="1.4" fill="none" stroke-linecap="round"/>
+  <ellipse cx="81" cy="74" rx="5" ry="3" fill="#ff8a8a" opacity=".28"/><ellipse cx="119" cy="74" rx="5" ry="3" fill="#ff8a8a" opacity=".28"/>
+  <path d="M94,80 Q100,85.5 106,80" stroke="#b5544f" stroke-width="1.9" fill="none" stroke-linecap="round"/>`;}
+function stripePat(id,c,dir){const sc=lum(c)>.55?'#2d3a66':'#ffffff';
+  return dir==='h'?`<pattern id="${id}" patternUnits="userSpaceOnUse" width="12" height="12"><rect width="12" height="12" fill="${c}"/><rect width="12" height="5" fill="${sc}"/></pattern>`
+  :`<pattern id="${id}" patternUnits="userSpaceOnUse" width="11" height="12"><rect width="11" height="12" fill="${c}"/><rect width="4.5" height="12" fill="${sc}"/></pattern>`;}
+function ribPat(id,c){return`<pattern id="${id}" patternUnits="userSpaceOnUse" width="4" height="4"><rect width="4" height="4" fill="${c}"/><rect width="1.4" height="4" fill="${shade(c,-.2)}"/></pattern>`;}
+function armPts(g,s){return[[100+s*(g.sw-4),g.shY+9],[100+s*(g.sw+4),g.waistY-4],[100+s*Math.max(g.sw+7,g.hip+10),g.hipY+2]];}
+function sleeve(g,s,len,w,fill,st){const[a,e,wr]=armPts(g,s);let d;
+  if(len==='short'){d=`M${P(a)} L${P([lerp(a[0],e[0],.45),lerp(a[1],e[1],.45)])}`;}
+  else d=`M${P(a)} L${P(e)} L${P([lerp(e[0],wr[0],.9),lerp(e[1],wr[1],.9)])}`;
+  return`<path d="${d}" stroke="${st}" stroke-width="${w+2.6}" fill="none" stroke-linecap="round" stroke-linejoin="round"/><path d="${d}" stroke="${fill}" stroke-width="${w}" fill="none" stroke-linecap="round" stroke-linejoin="round"/>`;}
+function torsoPath(g){return sp([[100-g.sw+2,g.shY+4],[92,g.shY-6,1],[108,g.shY-6,1],[100+g.sw-2,g.shY+4],[100+g.chest,g.shY+34],[100+g.waist,g.waistY],[100+g.hip,g.hipY,1],[100-g.hip,g.hipY,1],[100-g.waist,g.waistY],[100-g.chest,g.shY+34]]);}
+function legsSkin(g,skin,sd){const cK=g.hip*.4+1,cF=g.hip*.36+1;let s='';
+  for(const k of[-1,1]){const pts=[[100,g.hipY-12,1],[100+k*g.hip,g.hipY-12,1],[100+k*(cK+9),g.kneeY],[100+k*(cF+5.5),g.footY,1],[100+k*(cF-5.5),g.footY,1],[100+k*(cK-8.5),g.kneeY],[100+k,g.hipY+10,1]];
+    s+=`<path d="${sp(pts)}" fill="${skin}" stroke="${sd}"/>`;}return s;}
+function armsSkin(g,skin,sd){let s='';for(const k of[-1,1]){const[a,e,w]=armPts(g,k);const d=`M${P(a)} L${P(e)} L${P(w)}`;
+  s+=`<path d="${d}" stroke="${sd}" stroke-width="13.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/><path d="${d}" stroke="${skin}" stroke-width="11" fill="none" stroke-linecap="round" stroke-linejoin="round"/>`;}return s;}
+function hands(g,skin,sd){let s='';for(const k of[-1,1]){const w=armPts(g,k)[2];s+=`<circle cx="${f1(w[0])}" cy="${f1(w[1]+5)}" r="6.2" fill="${skin}" stroke="${sd}"/>`;}return s;}
+
+function bottomSvg(g,o,pf,defs){
+  const t=o.bottom,c=o.bottomC,st=stroke(c),yT=g.waistY+2,W=g.waist+3,h=g.hip,cK0=h*.4+1,cF0=h*.36+1;
+  const legs=q=>{const cK=q.cK??cK0,cH=q.cH??cF0,knee=q.hemY>g.kneeY+6;
+    const cHe=knee?cH:lerp(h*.5,cK,(q.hemY-g.hipY)/(g.kneeY-g.hipY));
+    const A=[[100-W,yT,1],[100+W,yT,1],[100+q.hipW,g.hipY]];
+    if(knee)A.push([100+cK+q.kw,g.kneeY]);
+    A.push([100+cHe+q.hw,q.hemY,1],[100+cHe-q.hw,q.hemY,1]);
+    if(knee)A.push([100+cK-q.kw,g.kneeY]);
+    A.push([100,g.hipY+12,1]);
+    if(knee)A.push([100-cK+q.kw,g.kneeY]);
+    A.push([100-cHe+q.hw,q.hemY,1],[100-cHe-q.hw,q.hemY,1]);
+    if(knee)A.push([100-cK-q.kw,g.kneeY]);
+    A.push([100-q.hipW,g.hipY]);return A;};
+  let pts,ex='',skirt=false;
+  if(t==='skinny')pts=legs({hipW:h+1.5,kw:9.8,hw:6.8,hemY:g.footY-5});
+  else if(t==='straight')pts=legs({hipW:h+3,kw:12.5,cH:h*.38+1,hw:12.5,hemY:g.footY+1});
+  else if(t==='flare')pts=legs({hipW:h+2,kw:10,cH:h*.4+2,hw:20,hemY:g.footY+3});
+  else if(t==='wide')pts=legs({hipW:h+5,cK:h*.5+2,kw:17.5,cH:h*.5+4,hw:21,hemY:g.footY+3});
+  else if(t==='jogger')pts=legs({hipW:h+4,kw:13,hw:8,hemY:g.footY-6});
+  else if(t==='shorts')pts=legs({hipW:h+3.5,hw:15.5,hemY:g.hipY+g.L*.27});
+  else if(t==='askirt'){skirt=true;pts=[[100-W,yT,1],[100+W,yT,1],[100+h+6,g.hipY],[100+h+22,g.kneeY+6,1],[100-h-22,g.kneeY+6,1],[100-h-6,g.hipY]];}
+  else{skirt=true;pts=[[100-W,yT,1],[100+W,yT,1],[100+h+4,g.hipY],[100+h+4,g.kneeY-4,1],[100-h-4,g.kneeY-4,1],[100-h-4,g.hipY]];}
+  let s=`<path d="${sp(pts)}" fill="${c}" stroke="${st}" stroke-width="1.4" stroke-linejoin="round"/>`;
+  if(!skirt)ex+=`<path d="M100,${f1(yT+6)} L100,${f1(g.hipY+11)}" stroke="${st}" stroke-width="1.2"/>`;
+  if(t==='straight'){const sc=shade(c,.4);
+    ex+=`<path d="M${f1(100-W+3)},${f1(yT+7)} Q${f1(100-W+8)},${f1(yT+17)} ${f1(100-W+16)},${f1(yT+7)} M${f1(100+W-3)},${f1(yT+7)} Q${f1(100+W-8)},${f1(yT+17)} ${f1(100+W-16)},${f1(yT+7)}" stroke="${sc}" stroke-width="1.2" fill="none" stroke-dasharray="2 2"/>`;}
+  if(t==='jogger'){for(const k of[-1,1]){const x=100+k*cF0;ex+=`<rect x="${f1(x-8.5)}" y="${f1(g.footY-11)}" width="17" height="6" rx="3" fill="${shade(c,-.12)}" stroke="${st}"/>`;
+      ex+=`<path d="M${f1(100+k*(h+3))},${f1(g.hipY-4)} L${f1(100+k*(cK0+12))},${f1(g.kneeY)} L${f1(100+k*(cF0+7.5))},${f1(g.footY-12)}" stroke="#ffffff" stroke-width="2.4" fill="none" opacity=".85"/>`;}
+    ex+=`<path d="M97,${f1(yT+5)} l-2,9 M103,${f1(yT+5)} l2,9" stroke="#fff" stroke-width="1.4"/>`;}
+  if(t==='askirt'){for(const k of[-.5,.5,-1.2,1.2])ex+=`<path d="M${f1(100+k*10)},${f1(yT+8)} L${f1(100+k*(h+12))},${f1(g.kneeY+4)}" stroke="${shade(c,-.15)}" stroke-width="1.2"/>`;}
+  if(t==='hskirt')ex+=`<path d="M100,${f1(g.kneeY-4)} L100,${f1(g.kneeY-22)}" stroke="${st}" stroke-width="1.3"/>`;
+  s+=ex+`<rect x="${f1(100-W)}" y="${f1(yT)}" width="${f1(2*W)}" height="6" rx="2" fill="${shade(c,-.08)}" stroke="${st}"/>`;
+  return s;}
+
+function topSvg(g,o,pf,defs){
+  const t=o.top,c=o.topC,st=stroke(c),y=g.shY;
+  const looseT=['oversize','hoodie','windbreaker'].includes(t);
+  const loose={oversize:7,hoodie:5,windbreaker:6,knit:3}[t]||1.5;
+  const sw=g.sw+({oversize:4,windbreaker:3,hoodie:2}[t]||0);
+  const hem=t==='crop'?g.waistY-1:t==='oversize'?g.hipY+20:(t==='hoodie'||t==='windbreaker')?g.hipY+14:g.hipY+7;
+  const hemW=t==='crop'?g.waist+3:Math.max(g.hip,g.chest)+loose;
+  const waistX=looseT?hemW-1:g.waist+2+loose;
+  let fill=c;
+  if(t==='hstripe'){defs.push(stripePat(pf+'hs',c,'h'));fill=`url(#${pf}hs)`;}
+  if(t==='vstripe'){defs.push(stripePat(pf+'vs',c,'v'));fill=`url(#${pf}vs)`;}
+  if(t==='knit'||t==='oversize'||t==='hoodie')defs.push(ribPat(pf+'rb',c));
+  const neck=NECKABLE.includes(t)?o.neck:(t==='shirt'?'collar':t==='hoodie'?'round':'zip');
+  const nk=neck==='v'?[[100,y+26,1]]:neck==='round'?[[100,y+9]]:neck==='collar'?[[100,y+16,1]]:[[100,y-3]];
+  const pts=[[89,y-4,1],[100-sw-1,y+6],[100-g.chest-loose,y+34]];
+  if(hem>g.waistY+6)pts.push([100-waistX,g.waistY]);
+  pts.push([100-hemW,hem,1],[100+hemW,hem,1]);
+  if(hem>g.waistY+6)pts.push([100+waistX,g.waistY]);
+  pts.push([100+g.chest+loose,y+34],[100+sw+1,y+6],[111,y-4,1],...nk);
+  const longS=['shirt','hoodie','windbreaker','knit','oversize'].includes(t);
+  const slw=looseT?19:15;
+  let s=sleeve(g,-1,longS?'long':'short',slw,fill,st)+sleeve(g,1,longS?'long':'short',slw,fill,st);
+  s+=`<path d="${sp(pts)}" fill="${fill}" stroke="${st}" stroke-width="1.4" stroke-linejoin="round"/>`;
+  if(t==='knit'||t==='oversize'||t==='hoodie')s+=`<rect x="${f1(100-hemW+1)}" y="${f1(hem-7)}" width="${f1(2*hemW-2)}" height="7" rx="2" fill="url(#${pf}rb)" stroke="${st}" stroke-width="1"/>`;
+  if(t==='shirt'){
+    s+=`<line x1="100" y1="${f1(y+16)}" x2="100" y2="${f1(hem)}" stroke="${st}" stroke-width="1.2"/>`;
+    for(let by=y+26;by<hem-4;by+=15)s+=`<circle cx="102.6" cy="${f1(by)}" r="1.7" fill="${st}"/>`;
+    s+=`<path d="M${f1(100-g.chest+6)},${f1(y+30)} h12 v11 h-12z" fill="none" stroke="${st}" stroke-width="1"/>`;
+    s+=`<path d="M89,${f1(y-6)} L99,${f1(y+15)} L82,${f1(y+11)}Z M111,${f1(y-6)} L101,${f1(y+15)} L118,${f1(y+11)}Z" fill="${shade(c,.12)}" stroke="${st}" stroke-width="1.2" stroke-linejoin="round"/>`;}
+  if(t==='hoodie'){
+    s+=`<path d="M${f1(100-22)},${f1(hem-28)} L${f1(100+22)},${f1(hem-28)} L${f1(100+27)},${f1(hem-8)} L${f1(100-27)},${f1(hem-8)}Z" fill="${shade(c,-.05)}" stroke="${st}" stroke-width="1.1"/>`;
+    s+=`<path d="M82,${f1(y-7)} C78,${f1(y+12)} 92,${f1(y+16)} 100,${f1(y+13)} C108,${f1(y+16)} 122,${f1(y+12)} 118,${f1(y-7)} C112,${f1(y+3)} 88,${f1(y+3)} 82,${f1(y-7)}Z" fill="${shade(c,-.1)}" stroke="${st}" stroke-width="1.2"/>`;
+    s+=`<path d="M95,${f1(y+12)} L94,${f1(y+34)} M105,${f1(y+12)} L106,${f1(y+34)}" stroke="${lum(c)>.6?'#555':'#fff'}" stroke-width="1.5" stroke-linecap="round"/>`;}
+  if(t==='windbreaker'){
+    s+=`<path d="M${f1(100-sw-2)},${f1(y+24)} Q100,${f1(y+32)} ${f1(100+sw+2)},${f1(y+24)}" stroke="${shade(c,.4)}" stroke-width="3.5" fill="none"/>`;
+    s+=`<line x1="100" y1="${f1(y-12)}" x2="100" y2="${f1(hem)}" stroke="${shade(c,-.45)}" stroke-width="1.8"/>`;
+    s+=`<rect x="89" y="${f1(y-15)}" width="22" height="16" rx="4" fill="${c}" stroke="${st}" stroke-width="1.2"/><line x1="100" y1="${f1(y-15)}" x2="100" y2="${f1(y+1)}" stroke="${shade(c,-.45)}" stroke-width="1.8"/>`;}
+  if(NECKABLE.includes(t)){
+    if(neck==='round')s+=`<path d="M89,${f1(y-4)} Q100,${f1(y+11)} 111,${f1(y-4)}" stroke="${st}" stroke-width="2.4" fill="none"/>`;
+    if(neck==='v')s+=`<path d="M89,${f1(y-4)} L100,${f1(y+26)} L111,${f1(y-4)}" stroke="${st}" stroke-width="2.4" fill="none" stroke-linejoin="round"/>`;
+    if(neck==='turtle')s+=`<rect x="90" y="${f1(y-18)}" width="20" height="20" rx="6" fill="${t==='knit'?`url(#${pf}rb)`:fill}" stroke="${st}" stroke-width="1.2"/><path d="M90.5,${f1(y-9)} Q100,${f1(y-6)} 109.5,${f1(y-9)}" stroke="${st}" fill="none"/>`;}
+  return s;}
+
+function outerSvg(g,o,pf,defs){
+  const t=o.outer;if(t==='none')return'';
+  const c=o.outerC,st=stroke(c),y=g.shY;
+  const hemY=t==='coat'?g.kneeY+18:t==='jacket'?g.hipY+18:g.hipY+9;
+  const sw=g.sw+(t==='cardigan'?1:3);
+  const vY=t==='jacket'?y+52:t==='coat'?y+48:y+46;
+  const big=['oversize','hoodie','windbreaker'].includes(o.top)?5:0;
+  const slw=(big?22:19)+(t==='coat'?1:0);
+  let s=sleeve(g,-1,'long',slw,c,st)+sleeve(g,1,'long',slw,c,st);
+  for(const k of[-1,1]){
+    const pts=[[100+k*11,y-6,1],[100+k*(sw+1+big*.4),y+5,t==='jacket'?1:0],[100+k*(g.chest+5+big),y+34],[100+k*(g.waist+6+big+(t==='coat'?3:0)),g.waistY],[100+k*(g.hip+7+big),g.hipY]];
+    if(t==='coat')pts.push([100+k*(g.hip+11+big),g.kneeY]);
+    pts.push([100+k*(Math.max(g.hip,g.chest)+(t==='coat'?13:8)+big),hemY,1],[100+k*4,hemY,1],[100+k*4,vY,1]);
+    s+=`<path d="${sp(pts)}" fill="${c}" stroke="${st}" stroke-width="1.4" stroke-linejoin="round"/>`;
+    if(t!=='cardigan')s+=`<path d="M${f1(100+k*11)},${f1(y-6)} L${f1(100+k*4)},${f1(vY)} L${f1(100+k*(t==='coat'?23:18))},${f1(y+20)}Z" fill="${shade(c,-.12)}" stroke="${st}" stroke-width="1.1" stroke-linejoin="round"/>`;
+    else s+=`<path d="M${f1(100+k*11)},${f1(y-6)} L${f1(100+k*4)},${f1(vY)} L${f1(100+k*4)},${f1(hemY)}" stroke="${shade(c,-.18)}" stroke-width="3" fill="none"/>`;
+    const py=t==='coat'?g.hipY+16:g.hipY+4;
+    if(t!=='cardigan')s+=`<path d="M${f1(100+k*(g.hip-6))},${f1(py)} l${k*12},0" stroke="${st}" stroke-width="1.6" stroke-linecap="round"/>`;}
+  if(t==='cardigan'){for(let by=vY+6;by<hemY-4;by+=13)s+=`<circle cx="106.5" cy="${f1(by)}" r="2" fill="${shade(c,-.35)}"/>`;}
+  if(t==='jacket'||t==='coat'){s+=`<circle cx="106.5" cy="${f1(vY+6)}" r="2.2" fill="${shade(c,-.35)}"/>`;if(t==='coat')s+=`<circle cx="106.5" cy="${f1(vY+26)}" r="2.2" fill="${shade(c,-.35)}"/>`;}
+  return s;}
+
+function shoesSvg(g,o,skin){
+  const t=o.shoes,c=o.shoesC,st=stroke(c),cF=g.hip*.36+1,y=g.footY;let s='';
+  for(const k of[-1,1]){const x=100+k*cF,X=v=>f1(x+v),Y=v=>f1(y+v);
+    if(t==='sandal'){s+=`<ellipse cx="${X(0)}" cy="${Y(1)}" rx="6" ry="4.6" fill="${skin}" stroke="${shade(skin,-.16)}"/><rect x="${X(-8)}" y="${Y(3.5)}" width="16" height="3.6" rx="1.8" fill="${c}" stroke="${st}"/><path d="M${X(-6)},${Y(-1)} L${X(6)},${Y(-1)} M${X(-6.5)},${Y(2)} L${X(6.5)},${Y(2)}" stroke="${c}" stroke-width="2.4" stroke-linecap="round"/>`;}
+    else if(t==='boots'){s+=`<rect x="${X(-8)}" y="${Y(-40)}" width="16" height="40" rx="3" fill="${c}" stroke="${st}"/><path d="M${X(-9)},${Y(5)} Q${X(-9.5)},${Y(-6)} ${X(0)},${Y(-6)} Q${X(9.5)},${Y(-6)} ${X(9)},${Y(5)}Z" fill="${c}" stroke="${st}"/><rect x="${X(-9.5)}" y="${Y(3.5)}" width="19" height="4" rx="1.5" fill="${shade(c,-.35)}"/>`;}
+    else if(t==='loafer'){s+=`<path d="M${X(-7.5)},${Y(5)} Q${X(-8.5)},${Y(-3.5)} ${X(0)},${Y(-4)} Q${X(8.5)},${Y(-3.5)} ${X(7.5)},${Y(5)}Z" fill="${c}" stroke="${st}"/><path d="M${X(-4)},${Y(-.5)} L${X(4)},${Y(-.5)}" stroke="${shade(c,-.3)}" stroke-width="1.6"/><rect x="${X(-8.3)}" y="${Y(4)}" width="16.6" height="2.6" rx="1.2" fill="${shade(c,-.4)}"/>`;}
+    else{s+=`<path d="M${X(-8)},${Y(5)} Q${X(-9)},${Y(-6)} ${X(0)},${Y(-7)} Q${X(9)},${Y(-6)} ${X(8)},${Y(5)}Z" fill="${c}" stroke="${st}"/><path d="M${X(-3.5)},${Y(-3)} L${X(3.5)},${Y(-3)} M${X(-3.5)},${Y(0)} L${X(3.5)},${Y(0)}" stroke="${lum(c)>.6?'#999':'#fff'}" stroke-width="1.3"/><rect x="${X(-9.5)}" y="${Y(3)}" width="19" height="4.5" rx="2" fill="#ffffff" stroke="#cbc1ba"/>`;}}
+  return s;}
+
+let UID=0;
+function avatarSVG(st,o,opt={}){
+  const pf=(opt.id||'av')+(++UID)+'_';
+  const g=G(st),skin=SKIN[st.under][st.skinLv],sd=shade(skin,-.16),hc=HAIR_COLORS[st.hairColor][1];
+  const defs=[];let s=hairBack(st.hair,hc);
+  const neck=`<rect x="92" y="86" width="16" height="${f1(g.shY-80)}" rx="5" fill="${skin}" stroke="${sd}"/>`;
+  if(opt.mode==='drape'){const y=g.shY,d=opt.drape||'#ffffff';
+    s+=neck+`<path d="M22,160 L22,${y+30} Q24,${y-2} 86,${y-6} Q100,${y+8} 114,${y-6} Q176,${y-2} 178,${y+30} L178,160Z" fill="${d}" stroke="${stroke(d)}" stroke-width="1.5"/>`
+      +`<path d="M60,${y+22} Q66,${y+40} 62,160 M140,${y+22} Q134,${y+40} 138,160" stroke="${shade(d,-.12)}" stroke-width="2" fill="none" opacity=".6"/>`;}
+  else{
+    s+=legsSkin(g,skin,sd)+neck+`<path d="${torsoPath(g)}" fill="${skin}" stroke="${sd}"/>`+armsSkin(g,skin,sd);
+    const shoesFirst=['straight','flare','wide'].includes(o.bottom);
+    if(shoesFirst)s+=shoesSvg(g,o,skin);
+    s+=bottomSvg(g,o,pf,defs);
+    if(!shoesFirst)s+=shoesSvg(g,o,skin);
+    s+=topSvg(g,o,pf,defs)+outerSvg(g,o,pf,defs)+hands(g,skin,sd);}
+  s+=headSvg(st,skin,hc)+hairFront(st.hair,hc);
+  const vb=opt.mode==='drape'?'22 8 156 150':'0 0 200 440';
+  const dy=opt.mode==='drape'?0:g.dy;
+  return`<svg xmlns="http://www.w3.org/2000/svg" viewBox="${vb}" ${opt.attrs||''} role="img" aria-label="코디 아바타"><defs>${defs.join('')}</defs><g transform="translate(0,${f1(dy)})">${s}</g></svg>`;}
+
+/* ========== 효과 계산 (착시 원리) ========== */
+const TOP_FX={
+  shirt:[{neat:28,V:3,F:6},'셔츠의 깃과 앞단추가 만드는 세로선이 단정한 인상을 줘요.'],
+  hoodie:[{active:28,S:6,F:-4,up:6},'후드티의 도톰한 재질과 후드가 편안하고 활동적인 인상을 줘요.'],
+  windbreaker:[{active:26,S:12,up:10},'바람막이의 부피감 있는 실루엣이 어깨를 넓어 보이게 하고 활동적인 인상을 줘요.'],
+  hstripe:[{S:16,V:-10,active:10,up:10},'가로 줄무늬의 가로선이 시선을 옆으로 이끌어 어깨와 상체가 강조돼요.'],
+  vstripe:[{V:16,S:-6,neat:6,up:-4,legs:2},'세로 줄무늬 티셔츠의 세로선이 시선을 위아래로 이끌어 몸이 길고 가늘어 보여요.'],
+  tee:[{active:6},'무지 티셔츠는 무늬가 없어서 색과 다른 옷의 효과가 잘 드러나요.'],
+  knit:[{soft:28,S:4,up:4},'니트의 포근한 재질감이 부드러운 인상을 줘요.'],
+  oversize:[{S:14,active:16,V:-6,up:12},'오버핏 맨투맨의 넉넉한 실루엣이 부피감을 더해 어깨가 넓어 보여요.'],
+  crop:[{V:14,L:6,active:8,up:-4,legs:14},'크롭 상의가 허리선을 위로 올려 다리가 길어 보여요.']};
+const BOTTOM_FX={
+  flare:[{V:14,L:4,low:5,legs:14},'나팔바지가 아래로 퍼지며 시선을 발끝까지 이어 다리가 길어 보여요.'],
+  skinny:[{L:14,V:4,low:-8,legs:3},'스키니바지가 다리에 붙어 다리 선이 드러나고 하체가 강조돼요.'],
+  straight:[{V:6,neat:10,legs:3},'일자 청바지의 곧은 선이 다리를 곧고 단정하게 이어 줘요.'],
+  wide:[{L:-12,soft:6,V:3,low:12},'와이드팬츠의 넓은 통이 하체 볼륨을 자연스럽게 감싸 줘요.'],
+  jogger:[{active:26,L:2},'추리닝 바지의 편한 실루엣이 활동적인 인상을 줘요.'],
+  shorts:[{L:10,active:16,V:-2},'반바지가 다리를 드러내 가볍고 활동적인 인상을 줘요.'],
+  askirt:[{L:-8,soft:22,low:10},'A라인 치마가 아래로 퍼지며 하체를 감싸고 부드러운 인상을 줘요.'],
+  hskirt:[{neat:20,V:4,L:4,legs:2},'H라인 치마의 곧은 선이 단정한 인상을 줘요.']};
+const OUTER_FX={
+  jacket:[{S:12,neat:26,V:4,F:5,up:6},'재킷의 각진 어깨선이 어깨를 또렷하게 하고 단정한 인상을 줘요.'],
+  cardigan:[{soft:24,V:7,S:-4,F:3},'가디건의 열린 앞선이 세로선을 만들고 부드러운 인상을 줘요.'],
+  coat:[{V:14,neat:14,L:-6,low:4},'롱코트의 길게 떨어지는 세로 실루엣이 몸을 길어 보이게 해요.']};
+const SHOE_FX={
+  sneakers:[{active:14},'운동화가 가볍고 활동적인 느낌을 더해요.'],
+  loafer:[{neat:14},'로퍼가 단정한 마무리를 더해요.'],
+  sandal:[{soft:8,active:4},'샌들이 시원하고 가벼운 느낌을 줘요.'],
+  boots:[{L:6,active:6,neat:4},'부츠가 발목을 덮어 하체에 또렷한 무게감을 줘요.']};
+
+function evaluate(st,o){
+  const R=[];const add=(d,t)=>R.push({d,t});
+  add(...TOP_FX[o.top]);
+  if(NECKABLE.includes(o.top)){
+    if(o.neck==='v')add({F:16,V:4},'V넥의 V자 선이 얼굴과 목을 길어 보이게 해서 얼굴이 갸름해 보여요.');
+    else if(o.neck==='turtle')add({F:-12,neat:8,soft:6},st.face==='long'?'터틀넥이 목을 감싸 얼굴이 짧아 보여서 긴 얼굴형과 균형을 이뤄요.':'터틀넥이 목을 감싸 얼굴이 짧아 보이고 차분한 인상을 줘요.');
+    else add({F:-4,soft:4},'라운드넥이 얼굴선을 둥글고 편안하게 받쳐 줘요.');}
+  add(...BOTTOM_FX[o.bottom]);
+  if(o.outer!=='none')add(...OUTER_FX[o.outer]);
+  add(...SHOE_FX[o.shoes]);
+  const hasOuter=o.outer!=='none',upC=hasOuter?o.outerC:o.topC,upN=hasOuter?'겉옷':'상의';
+  const eU=expand(upC),eL=expand(o.bottomC);
+  if(eU>=6)add({S:Math.round(eU*.7),up:Math.round(eU*.6)},`${cname(upC)} ${upN}처럼 밝거나 따뜻한 색은 팽창해 보여서 상체가 강조돼요.`);
+  else if(eU<=-6)add({S:Math.round(eU*.7),up:Math.round(eU*.6)},`${cname(upC)} ${upN}처럼 어둡거나 차가운 색은 수축해 보여서 상체가 가늘어 보여요.`);
+  if(eL>=6)add({L:Math.round(eL*.7),low:Math.round(eL*.6)},`${cname(o.bottomC)} 하의처럼 밝거나 따뜻한 색은 팽창해 보여서 하체가 강조돼요.`);
+  else if(eL<=-6)add({L:Math.round(eL*.7),low:Math.round(eL*.6)},`${cname(o.bottomC)} 하의처럼 어둡거나 차가운 색은 수축해 보여서 하체가 가늘어 보여요.`);
+  const d=dist(upC,o.bottomC),ld=Math.abs(lum(upC)-lum(o.bottomC));
+  if(d<75)add({V:14,legs:4},`${wa(upN)} 하의를 비슷한 색으로 맞춰 세로로 이어지니 키가 커 보여요.`);
+  else if(ld>.45)add({V:-10},`${wa(upN)} 하의의 색 대비가 뚜렷해 시선이 위아래로 나뉘어요. 비슷한 색으로 맞추면 더 길어 보여요.`);
+  if(!['shorts','askirt','hskirt'].includes(o.bottom)&&dist(o.shoesC,o.bottomC)<75)add({V:5,legs:6},'신발 색을 바지와 비슷하게 맞춰 다리가 끊김 없이 길게 이어져 보여요.');
+  const H=hsl(upC);
+  if(H.l>.7&&H.s>.3&&H.l<.97)add({soft:10},`파스텔 톤 ${iga(cname(upC))} 부드럽고 맑은 인상을 더해요.`);
+  else if(H.s>.55&&H.l>.35&&H.l<.7)add({active:10},`선명한 ${iga(cname(upC))} 생기 있고 활동적인 인상을 더해요.`);
+  else if(H.l<.3||(H.s<.15&&H.l<.75))add({neat:10},`차분한 ${iga(cname(upC))} 단정한 인상을 더해요.`);
+  const base={straight:[0,0],upper:[12,0],lower:[0,12],curve:[6,6]}[st.body];
+  const E={V:50,S:50,L:50,F:50,soft:10,active:10,neat:10,legs:0,up:base[0],low:base[1]};
+  R.forEach(r=>{for(const k in r.d)E[k]+=r.d[k];});
+  ['V','S','L','F'].forEach(k=>E[k]=clamp(Math.round(E[k]),3,97));
+  ['soft','active','neat'].forEach(k=>E[k]=clamp(Math.round(E[k]),0,100));
+  E.R=R;return E;}
+function goalMet(gl,E){switch(gl){
+  case'tall':return E.V>=62;case'legs':return E.legs>=12;case'shWide':return E.S>=62;case'shNarrow':return E.S<=42;
+  case'balance':return Math.abs(E.up-E.low)<=8;case'face':return E.F>=60;
+  default:return E[gl]>=35&&E[gl]>=Math.max(E.soft,E.active,E.neat);}}
+const GOAL_METER={tall:['V'],legs:['V'],shWide:['S'],shNarrow:['S'],balance:['S','L'],face:['F'],soft:['M'],active:['M'],neat:['M']};
+const GOAL_DIR={tall:{V:1},legs:{V:1},shWide:{S:1},shNarrow:{S:-1},face:{F:1}};
+function goalDirs(goals,E){const d={};const a=(k,v)=>d[k]=(d[k]||0)+v;
+  goals.forEach(g=>{switch(g){case'tall':a('V',1);break;case'legs':a('legs',1);a('V',.5);break;case'shWide':a('S',1);break;case'shNarrow':a('S',-1);break;case'face':a('F',1);break;
+    case'balance':{const df=E.up-E.low;if(df>0){a('low',.8);a('up',-.8);}else if(df<0){a('up',.8);a('low',-.8);}else{a('up',.2);a('low',.2);}break;}
+    default:a(g,1);}});return d;}
+function topReasons(E,goals){const dir=goalDirs(goals,E);
+  return E.R.map(r=>{let al=0,ab=0;for(const k in r.d){al+=(dir[k]||0)*r.d[k];ab+=Math.abs(r.d[k]);}return{t:r.t,score:goals.length?al*2+ab*.25:ab};})
+    .filter(x=>x.score>0).sort((a,b)=>b.score-a.score).slice(0,3).map(x=>x.t);}
+function tipFor(gl,st){return{
+  tall:'상의와 하의를 비슷한 색으로 맞추거나 세로 줄무늬·롱코트를 골라 보세요. 세로로 길어 보이는 효과가 더 커져요.',
+  legs:'크롭 상의나 나팔바지를 고르고, 신발 색을 바지와 맞춰 보세요. 다리가 길어 보이는 효과가 더 커져요.',
+  shWide:'가로 줄무늬, 오버핏 맨투맨, 재킷이나 밝은 색 상의를 골라 보세요. 어깨가 넓어 보이는 효과가 더 커져요.',
+  shNarrow:'어두운 색 상의, 세로 줄무늬, 가디건을 골라 보세요. 어깨선이 더 부드럽게 정리돼 보여요.',
+  balance:st.body==='upper'?'하의를 밝은 색이나 와이드팬츠·A라인 치마처럼 넓은 실루엣으로 바꾸고, 상의는 어두운 색으로 해 보세요. 상하체 균형이 더 잘 맞아요.':st.body==='lower'?'상의를 밝은 색이나 가로 줄무늬로, 하의는 어두운 색으로 바꿔 보세요. 상하체 균형이 더 잘 맞아요.':'상의와 하의의 밝기와 부피감을 비슷하게 맞춰 보세요. 균형이 더 잘 맞아요.',
+  face:'V넥 상의나 앞이 열린 재킷·가디건을 골라 보세요. 얼굴이 갸름해 보이는 효과가 더 커져요.',
+  soft:'니트, 가디건, A라인 치마나 파스텔 색을 골라 보세요. 부드러운 인상이 더 커져요.',
+  active:'후드티, 바람막이, 추리닝 바지, 운동화나 선명한 색을 골라 보세요. 활동적인 인상이 더 커져요.',
+  neat:'셔츠, 재킷, 로퍼나 차분한 색을 골라 보세요. 단정한 인상이 더 커져요.'}[gl];}
+const IMP=[['soft','부드러움'],['active','활동적'],['neat','단정']];
+
+/* ========== 화면 공통 ========== */
+const STEPS=[['avatar','아바타'],['drape','색 대어 보기'],['goal','연출 목표'],['coordi','코디·효과'],['compare','A/B 비교'],['card','코디 카드']];
+function renderSteps(){$('#steps').innerHTML=STEPS.map(([k,n],i)=>`<button data-go="${k}" class="${UI.screen===k?'on':''}"><b>${i+1}</b>${n}</button>`).join('');}
+function go(name){UI.screen=name;document.querySelectorAll('.screen').forEach(s=>s.classList.toggle('active',s.id==='s-'+name));renderSteps();
+  ({start:renderStart,avatar:renderAvatar,drape:renderDrape,goal:renderGoal,coordi:renderCoordi,compare:renderCompare,card:renderCard})[name]();
+  window.scrollTo({top:0,behavior:'smooth'});
+  const on=document.querySelector('#steps .on');if(on)on.scrollIntoView({inline:'center',block:'nearest'});}
+document.addEventListener('click',e=>{const b=e.target.closest('[data-go]');if(b)go(b.dataset.go);});
+const chipsHTML=(items,cur,key)=>items.map(([k,n])=>`<button class="chip ${String(k)===String(cur)?'on':''}" data-set="${key}" data-v="${k}">${n}</button>`).join('');
+
+/* ========== 시작 ========== */
+function renderStart(){
+  const st={...avOf(S)};
+  const o2={top:'vstripe',topC:'#233A6B',neck:'v',bottom:'wide',bottomC:'#233A6B',outer:'cardigan',outerC:'#F3EAD7',shoes:'loafer',shoesC:'#7A4E2D'};
+  const st2={...st,face:'oval',hair:3,hairColor:2,skinLv:3,under:'cool',body:'curve'};
+  $('#heroAv').innerHTML=avatarSVG(st,{...S.o,top:'hstripe',topC:'#FF7F66',bottom:'flare',bottomC:'#F3EAD7'},{id:'h1'})+avatarSVG(st2,o2,{id:'h2'});}
+
+/* ========== 아바타 ========== */
+function renderAvatar(){
+  $('#avStage').innerHTML=avatarSVG(S,S.o,{id:'st'});
+  $('#o-face').innerHTML=chipsHTML(FACES,S.face,'face');
+  $('#o-skin').innerHTML=SKIN[S.under].map((c,i)=>`<button class="sw ${i===S.skinLv?'on':''}" style="background:${c}" data-set="skinLv" data-v="${i}" title="${i+1}단계" aria-label="피부톤 ${i+1}단계"></button>`).join('');
+  $('#o-under').innerHTML=chipsHTML(UNDER,S.under,'under');
+  $('#o-hair').innerHTML=chipsHTML(HAIRS,S.hair,'hair');
+  $('#o-hairc').innerHTML=HAIR_COLORS.map(([n,c],i)=>`<button class="sw ${i===S.hairColor?'on':''}" style="background:${c}" data-set="hairColor" data-v="${i}" title="${n}" aria-label="${n}"></button>`).join('');
+  $('#o-height').innerHTML=chipsHTML(HEIGHTS,S.height,'height');
+  $('#o-shoulder').innerHTML=chipsHTML(SHOULDERS,S.shoulder,'shoulder');
+  $('#o-body').innerHTML=chipsHTML(BODIES,S.body,'body');}
+$('#s-avatar').addEventListener('click',e=>{const b=e.target.closest('[data-set]');if(!b)return;const k=b.dataset.set;let v=b.dataset.v;
+  if(['skinLv','hair','hairColor'].includes(k))v=+v;S[k]=v;renderAvatar();});
+
+/* ========== 색 대어 보기 ========== */
+function drapeSlot(c,i){const inf=c?DRAPE_INFO[c]:null;const mine=c&&S.myColors.includes(c);
+  return`<div class="dslot ${S.dmode==='compare'&&S.dactive===i?'active':''}" data-slot="${i}">
+    ${avatarSVG(S,S.o,{mode:'drape',drape:c||'#f4efeb',id:'d'+i})}
+    <div class="nm">${inf?esc(inf.n):'색을 골라 주세요'}</div><div class="im">${inf?esc(inf.t):''}</div>
+    ${c?`<button class="btn small ${mine?'ghost':''}" data-mine="${c}">${mine?'★ 나의 색 해제':'☆ 나의 색으로 저장'}</button>`:''}</div>`;}
+function renderDrape(){
+  $('#dmSingle').classList.toggle('on',S.dmode==='single');$('#dmCompare').classList.toggle('on',S.dmode==='compare');
+  const cur=S.dmode==='single'?[S.drape]:S.dslots;
+  $('#drapeView').innerHTML=`<div class="dview">${cur.map((c,i)=>drapeSlot(c,i)).join('')}</div>`;
+  let info;
+  if(S.dmode==='single'){const inf=DRAPE_INFO[S.drape];info=`<b>${esc(inf.n)}</b> → ${esc(inf.t)}이에요. 얼굴이 어떻게 보이나요? 다른 색과도 비교해 보세요.`;}
+  else{const[a,b]=S.dslots;info=a&&b?`<b>${esc(DRAPE_INFO[a].n)}</b>${hasBatchim(DRAPE_INFO[a].n)?'과':'와'} <b>${esc(DRAPE_INFO[b].n)}</b>, 어느 쪽에서 내 얼굴이 더 환해 보이나요? 눈 밑 그늘, 볼의 생기, 입술 색을 비교해 보세요.`
+    :'파란 테두리 칸이 선택된 칸이에요. 색을 누르면 그 칸에 천이 대어져요. 칸을 눌러 바꿀 수도 있어요.';}
+  $('#drapeInfo').innerHTML=info;
+  const sel=S.dmode==='single'?[S.drape]:S.dslots;
+  $('#drapePal').innerHTML=DRAPES.map(g=>`<div class="palg"><h3>${g.g}</h3><div class="sws">${g.list.map(([n,c])=>`<button class="sw ${sel.includes(c)?'on':''} ${S.myColors.includes(c)?'star':''}" style="background:${c}" data-drape="${c}" title="${n}" aria-label="${n}"></button>`).join('')}</div></div>`).join('');
+  $('#myColors').innerHTML=S.myColors.length?S.myColors.map(c=>`<span class="mycol"><i style="background:${c}"></i>${esc(cname(c))}<button data-unmine="${c}" aria-label="삭제">✕</button></span>`).join(''):'<span class="hint">아직 저장한 색이 없어요. 얼굴이 환해 보이는 색을 찾아 ☆를 눌러 보세요.</span>';}
+function toggleMine(c){const i=S.myColors.indexOf(c);
+  if(i>=0)S.myColors.splice(i,1);
+  else{if(S.myColors.length>=3){toast('나의 색은 3개까지 저장할 수 있어요. 하나를 해제하고 골라 보세요.');return;}S.myColors.push(c);toast(`⭐ ${cname(c)}을(를) 나의 색으로 저장했어요!`);}
+  renderDrape();}
+$('#s-drape').addEventListener('click',e=>{
+  let b;
+  if((b=e.target.closest('[data-mine]'))){toggleMine(b.dataset.mine);return;}
+  if((b=e.target.closest('[data-unmine]'))){toggleMine(b.dataset.unmine);return;}
+  if((b=e.target.closest('[data-drape]'))){const c=b.dataset.drape;
+    if(S.dmode==='single')S.drape=c;else{S.dslots[S.dactive]=c;S.dactive=S.dactive===0?1:0;}renderDrape();return;}
+  if((b=e.target.closest('[data-slot]'))&&S.dmode==='compare'){S.dactive=+b.dataset.slot;renderDrape();return;}
+  if(e.target.closest('#dmSingle')){S.dmode='single';renderDrape();}
+  if(e.target.closest('#dmCompare')){S.dmode='compare';if(!S.dslots[0]){S.dslots=[S.drape,null];S.dactive=1;}renderDrape();}});
+
+/* ========== 목표 ========== */
+function renderGoal(){
+  $('#goalBox').innerHTML=GOAL_GROUPS.map(([t,ks])=>`<div class="ggroup"><h3>${t}</h3><div class="chips">${ks.map(k=>`<button class="gbtn ${S.goals.includes(k)?'on':''}" data-goal="${k}">${GNAME[k]}</button>`).join('')}</div></div>`).join('')
+    +`<div class="guide gsum">${S.goals.length?`나의 연출 목표: <b>${S.goals.map(g=>GNAME[g]).join(', ')}</b> (${S.goals.length}/2)`:'목표를 1~2개 골라 주세요. 코디할 때 이 목표 쪽으로 움직이면 효과 미터가 초록색으로 빛나요!'}</div>`;}
+$('#goalBox').addEventListener('click',e=>{const b=e.target.closest('[data-goal]');if(!b)return;const k=b.dataset.goal,i=S.goals.indexOf(k);
+  if(i>=0)S.goals.splice(i,1);
+  else{if(S.goals.length>=2){toast('목표는 2개까지 고를 수 있어요. 하나를 해제하고 골라 보세요.');return;}
+    if(k==='shWide'&&S.goals.includes('shNarrow')||k==='shNarrow'&&S.goals.includes('shWide')){toast('어깨 목표는 하나만 골라 보세요.');return;}
+    S.goals.push(k);}
+  LAST=null;renderGoal();});
+
+/* ========== 코디 ========== */
+const TABS=[['top','상의'],['bottom','하의'],['outer','겉옷'],['shoes','신발']];
+function palHTML(key){
+  const cur=S.o[key];
+  const mine=S.myColors.length?`<div class="palrow"><small>⭐ 나의 색</small><div class="sws">${S.myColors.map(c=>`<button class="sw star ${cur===c?'on':''}" style="background:${c}" data-col="${key}" data-v="${c}" title="${cname(c)}" aria-label="${cname(c)}"></button>`).join('')}</div></div>`
+    :`<p class="hint">② 색 대어 보기에서 '나의 색'을 저장하면 여기 맨 앞에 나와요.</p>`;
+  return mine+`<div class="palrow"><small>기본 색</small><div class="sws">${BASE_COLORS.map(([n,c])=>`<button class="sw ${cur===c?'on':''}" style="background:${c}" data-col="${key}" data-v="${c}" title="${n}" aria-label="${n}"></button>`).join('')}</div></div>`;}
+function renderPanel(){
+  $('#cdTabs').innerHTML=TABS.map(([k,n])=>`<button class="${UI.tab===k?'on':''}" data-tab="${k}">${n}</button>`).join('');
+  let h='';const sec=(t,c)=>`<div class="psec"><h3>${t}</h3>${c}</div>`;
+  if(UI.tab==='top'){h+=sec('상의 종류',`<div class="chips">${chipsHTML(TOPS,S.o.top,'top')}</div>`);
+    h+=sec('네크라인',NECKABLE.includes(S.o.top)?`<div class="chips">${chipsHTML(NECKS,S.o.neck,'neck')}</div>`:`<p class="hint">${LBL[S.o.top]}는(은) 고유한 목선(${S.o.top==='shirt'?'셔츠 깃':S.o.top==='hoodie'?'후드':'스탠드 칼라'})을 가지고 있어요.</p>`);
+    h+=sec('상의 색 '+`<small style="font-family:'Noto Sans KR';font-size:13px;color:var(--sub)">· ${esc(cname(S.o.topC))}</small>`,palHTML('topC'));}
+  if(UI.tab==='bottom'){h+=sec('하의 종류',`<div class="chips">${chipsHTML(BOTTOMS,S.o.bottom,'bottom')}</div>`);
+    h+=sec('하의 색 '+`<small style="font-family:'Noto Sans KR';font-size:13px;color:var(--sub)">· ${esc(cname(S.o.bottomC))}</small>`,palHTML('bottomC'));}
+  if(UI.tab==='outer'){h+=sec('겉옷 종류',`<div class="chips">${chipsHTML(OUTERS,S.o.outer,'outer')}</div>`);
+    h+=S.o.outer==='none'?'<p class="hint">겉옷을 고르면 색도 바꿀 수 있어요.</p>':sec('겉옷 색 '+`<small style="font-family:'Noto Sans KR';font-size:13px;color:var(--sub)">· ${esc(cname(S.o.outerC))}</small>`,palHTML('outerC'));}
+  if(UI.tab==='shoes'){h+=sec('신발 종류',`<div class="chips">${chipsHTML(SHOES,S.o.shoes,'shoes')}</div>`);
+    h+=sec('신발 색 '+`<small style="font-family:'Noto Sans KR';font-size:13px;color:var(--sub)">· ${esc(cname(S.o.shoesC))}</small>`,palHTML('shoesC'));}
+  $('#cdPanel').innerHTML=h;}
+function meterRow(k,label,E,rel,met,dir,delta){
+  const goodDelta=delta&&dir&&delta*dir>0;
+  return`<div class="meter ${rel?'goal':''} ${met?'met':''}"><div class="lab"><span>${label}${rel?`<span class="gtag">목표 ${dir>0?'↑':dir<0?'↓':'⇄'}</span>`:''}</span>
+    <span>${delta?`<span class="dl ${goodDelta?'good':''}">${delta>0?'▲':'▼'}${Math.abs(delta)}</span> `:''}${E[k]}</span></div>
+    <div class="bar"><span class="mid"></span><i style="width:${E[k]}%"></i></div></div>`;}
+function renderMeters(){
+  const E=evaluate(S,S.o),goals=S.goals;
+  const rel={},met={},dir={};
+  goals.forEach(g=>{GOAL_METER[g].forEach(m=>{rel[m]=true;met[m]=(met[m]===undefined?true:met[m])&&goalMet(g,E);});
+    if(GOAL_DIR[g])for(const k in GOAL_DIR[g])dir[k]=GOAL_DIR[g][k];});
+  if(goals.includes('balance')){dir.S=dir.S||0;dir.L=dir.L||0;}
+  const dl=k=>LAST?E[k]-LAST[k]:0;
+  let h=`<h3>📊 효과 미터</h3>`;
+  h+=meterRow('V','↕ 세로로 길어 보임',E,rel.V,rel.V&&met.V,dir.V,dl('V'));
+  h+=meterRow('S','⇔ 어깨·상체 강조',E,rel.S,rel.S&&met.S,dir.S,dl('S'));
+  h+=meterRow('L','⬇ 하체 강조',E,rel.L,rel.L&&met.L,dir.L,dl('L'));
+  h+=meterRow('F','◇ 얼굴 갸름해 보임',E,rel.F,rel.F&&met.F,dir.F,dl('F'));
+  const top=IMP.reduce((a,b)=>E[b[0]]>E[a[0]]?b:a);
+  const impGoal=goals.find(g=>['soft','active','neat'].includes(g));
+  h+=`<div class="meter ${rel.M?'goal':''} ${rel.M&&met.M?'met':''}"><div class="lab"><span>✨ 인상${rel.M?`<span class="gtag">목표: ${GNAME[impGoal].replace(' 인상','')}</span>`:''}</span><span>지금은 <b>${top[1]}</b> 쪽</span></div>
+    <div class="imp">${IMP.map(([k,n])=>{const d=dl(k);return`<span class="${k===top[0]?'on':''}">${n}</span><div class="bar"><i style="width:${E[k]}%"></i></div><span>${d?`<span class="dl ${impGoal===k&&d>0?'good':''}">${d>0?'▲':'▼'}${Math.abs(d)}</span> `:''}${E[k]}</span>`;}).join('')}</div></div>`;
+  if(goals.includes('balance')){const pos=clamp(50+(E.low-E.up)*2,4,96),ok=Math.abs(E.up-E.low)<=8;
+    h+=`<div class="meter goal ${ok?'met':''}"><div class="lab"><span>⚖ 상하 균형</span><span>${ok?'균형이 잘 맞아요':'조금 더 맞춰 볼까요?'}</span></div>
+      <div class="bar"><span class="mid"></span><i style="width:8%;margin-left:${pos-4}%;background:${ok?'var(--green)':'#f2a6b4'}"></i></div><div class="seesaw"><span>상체 쪽 강조</span><span>균형</span><span>하체 쪽 강조</span></div></div>`;}
+  const rs=topReasons(E,goals);
+  h+=`<div class="reasons"><h4>🔍 지금 코디에서 효과를 낸 요소</h4><ol>${rs.map(t=>`<li>${esc(t)}</li>`).join('')}</ol></div>`;
+  if(goals.length){const un=goals.find(g=>!goalMet(g,E));
+    h+=`<div class="tip">${un?'💡 '+esc(tipFor(un,S)):'🎉 고른 목표의 효과가 잘 나타나고 있어요! A안으로 저장하고 다른 코디와 비교해 보세요.'}</div>`;}
+  else h+=`<div class="tip">💡 ③ 연출 목표를 고르면, 목표 쪽으로 움직일 때 미터가 초록색으로 빛나요.</div>`;
+  $('#meters').innerHTML=h;
+  $('#cdGoals').innerHTML=goals.map(g=>`<span class="pill ${goalMet(g,E)?'met':''}">${goalMet(g,E)?'✔ ':''}${GNAME[g]}</span>`).join('');
+  LAST=E;}
+function renderCoordi(){
+  $('#goalLine').innerHTML=S.goals.length?`나의 목표: <b>${S.goals.map(g=>GNAME[g]).join(' · ')}</b> — 옷을 고르면 아바타와 미터가 바로 바뀌어요.`:'옷을 고르면 아바타와 효과 미터가 바로 바뀌어요.';
+  $('#cdStage').innerHTML=avatarSVG(S,S.o,{id:'cd'});
+  renderPanel();renderMeters();}
+$('#s-coordi').addEventListener('click',e=>{let b;
+  if((b=e.target.closest('[data-tab]'))){UI.tab=b.dataset.tab;renderPanel();return;}
+  if((b=e.target.closest('[data-set]'))){S.o[b.dataset.set]=b.dataset.v;renderCoordi();return;}
+  if((b=e.target.closest('[data-col]'))){S.o[b.dataset.col]=b.dataset.v;renderCoordi();return;}
+  if(e.target.closest('#saveA'))savePlan('A');
+  if(e.target.closest('#saveB'))savePlan('B');});
+function savePlan(k){S[k]={st:avOf(S),o:{...S.o}};toast(`${k}안을 저장했어요! ${S.A&&S.B?'⑤ A/B 비교에서 나란히 비교해 보세요.':'다른 코디도 만들어 '+(k==='A'?'B':'A')+'안으로 저장해 보세요.'}`);}
+
+/* ========== 비교 ========== */
+function planHTML(k,p,E,best){
+  const o=p.o;const items=[['상의',`${LBL[o.top]}${NECKABLE.includes(o.top)?' · '+LBL[o.neck]:''} (${cname(o.topC)})`],['하의',`${LBL[o.bottom]} (${cname(o.bottomC)})`],['겉옷',o.outer==='none'?'없음':`${LBL[o.outer]} (${cname(o.outerC)})`],['신발',`${LBL[o.shoes]} (${cname(o.shoesC)})`]];
+  const n=S.goals.filter(g=>goalMet(g,E)).length;
+  return`<div class="card plan ${best?'best':''}"><h3>${k}안</h3>${best?'<span class="best-badge">목표에 더 가까워요</span>':''}
+    <div class="av">${avatarSVG(p.st,o,{id:'c'+k})}</div>
+    ${S.goals.length?`<div class="score">목표 효과 ${n} / ${S.goals.length}</div>`:''}
+    <ul>${items.map(([a,b])=>`<li><b>${a}</b> ${esc(b)}</li>`).join('')}</ul>
+    <button class="btn ghost small" data-load="${k}">이 안 불러와 고치기</button></div>`;}
+function closeness(E){if(!S.goals.length)return 0;let s=0;const dir=goalDirs(S.goals,E);
+  S.goals.forEach(g=>{s+=goalMet(g,E)?100:0;});
+  s+=(dir.V||0)*E.V+(dir.S||0)*E.S+(dir.F||0)*E.F+(dir.soft||0)*E.soft+(dir.active||0)*E.active+(dir.neat||0)*E.neat+(dir.legs||0)*E.legs*2-(S.goals.includes('balance')?Math.abs(E.up-E.low)*2:0);
+  return s;}
+function renderCompare(){
+  if(!S.A||!S.B){$('#cmpView').innerHTML=`<div class="card empty"><h3 style="font-size:22px">아직 ${!S.A&&!S.B?'A안과 B안이':!S.A?'A안이':'B안이'} 없어요</h3><p>④ 코디하기에서 [A안 저장], [B안 저장] 버튼으로 두 가지 코디를 저장해 보세요.</p><button class="btn" data-go="coordi">코디하러 가기</button></div>`;return;}
+  const EA=evaluate(S.A.st,S.A.o),EB=evaluate(S.B.st,S.B.o);
+  const ca=closeness(EA),cb=closeness(EB);const bestA=S.goals.length&&ca>cb,bestB=S.goals.length&&cb>ca;
+  const rows=[['V','세로로 길어 보임',1],['S','어깨·상체 강조',S.goals.includes('shNarrow')?-1:1],['L','하체 강조',0],['F','얼굴 갸름해 보임',1],['soft','부드러움',0],['active','활동적',0],['neat','단정',0]];
+  const relK=new Set();S.goals.forEach(g=>{(GOAL_METER[g]||[]).forEach(m=>relK.add(m));if(['soft','active','neat'].includes(g))relK.add(g);});
+  const tbl=`<div class="card" style="margin-top:16px"><h3 style="font-size:20px">📊 미터 비교</h3><table class="vs"><tr><th>A안</th><th>효과</th><th>B안</th></tr>${rows.map(([k,n,d])=>{const rel=relK.has(k)&&k!=='M';const sign=k==='S'&&S.goals.includes('shNarrow')?-1:1;
+      const wA=rel&&(EA[k]-EB[k])*sign>0,wB=rel&&(EB[k]-EA[k])*sign>0;
+      return`<tr><td class="${wA?'w':''}">${EA[k]}${wA?' ✔':''}</td><td>${n}${rel?' 🎯':''}</td><td class="${wB?'w':''}">${EB[k]}${wB?' ✔':''}</td></tr>`;}).join('')}</table>
+    <p class="hint">🎯 표시는 내가 고른 목표와 관련된 미터예요. 두 안의 차이를 만든 디자인 요소(선·색·무늬·재질·실루엣)는 무엇일까요?</p></div>`;
+  $('#cmpView').innerHTML=`<div class="cmpgrid">${planHTML('A',S.A,EA,bestA)}${planHTML('B',S.B,EB,bestB)}</div>${tbl}`;}
+$('#cmpView').addEventListener('click',e=>{const b=e.target.closest('[data-load]');if(!b)return;const p=S[b.dataset.load];
+  Object.assign(S,p.st);S.o={...p.o};LAST=null;toast(`${b.dataset.load}안을 불러왔어요.`);go('coordi');});
+
+/* ========== 카드 ========== */
+const KEYWORDS=['선','색','무늬','재질','실루엣'];
+function wrapText(t,n){const out=[];let line='';t.replace(/\s+/g,' ').trim().split(' ').forEach(w=>{
+  while(w.length>n){if(line){out.push(line);line='';}out.push(w.slice(0,n));w=w.slice(n);}
+  if((line+' '+w).trim().length>n){out.push(line);line=w;}else line=(line?line+' ':'')+w;});if(line)out.push(line);return out;}
+function cardPlan(){if(S.cardSrc==='A'&&S.A)return S.A;if(S.cardSrc==='B'&&S.B)return S.B;return{st:avOf(S),o:{...S.o}};}
+function cardSVG(){
+  const p=cardPlan(),E=evaluate(p.st,p.o),o=p.o;
+  const FF="'Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif";
+  const T=(x,y,s,txt,ex='')=>`<text x="${x}" y="${y}" font-family="${FF}" font-size="${s}" ${/fill=/.test(ex)?'':'fill="#3a3138"'} ${ex}>${esc(txt)}</text>`;
+  const av=avatarSVG(p.st,o,{id:'card',attrs:'x="24" y="96" width="250" height="550"'});
+  let s=`<svg xmlns="http://www.w3.org/2000/svg" width="600" height="860" viewBox="0 0 600 860">
+  <defs><linearGradient id="cbg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff1f3"/><stop offset="1" stop-color="#eef0ff"/></linearGradient></defs>
+  <rect width="600" height="860" rx="32" fill="url(#cbg)"/><rect x="12" y="12" width="576" height="836" rx="26" fill="none" stroke="#e8647a" stroke-width="2" stroke-dasharray="6 6"/>
+  ${T(36,58,28,'나를 살리는 코디 랩','font-weight="700" fill="#e8647a"')}
+  ${T(564,58,18,(S.name||'나')+'의 코디 카드','text-anchor="end" font-weight="700"')}
+  <rect x="24" y="96" width="250" height="550" rx="22" fill="#ffffff"/><rect x="24" y="560" width="250" height="86" rx="0" fill="#f4e6df" opacity=".7"/>${av}`;
+  let y=110;
+  s+=T(296,y,17,'🎯 나의 연출 목표','font-weight="700" fill="#c94a60"');y+=28;
+  if(S.goals.length)S.goals.forEach(g=>{const m=goalMet(g,E);s+=`<rect x="296" y="${y-18}" width="270" height="26" rx="13" fill="${m?'#dcf4e8':'#fde6ea'}"/>`+T(308,y,15,(m?'✔ ':'· ')+GNAME[g],`fill="${m?'#11744a':'#a8293f'}" font-weight="700"`);y+=32;});
+  else{s+=T(300,y,15,'자유 코디');y+=32;}
+  y+=8;s+=T(296,y,17,'👕 코디 구성','font-weight="700" fill="#c94a60"');y+=26;
+  [['상의',`${LBL[o.top]}${NECKABLE.includes(o.top)?'·'+LBL[o.neck]:''} (${cname(o.topC)})`],['하의',`${LBL[o.bottom]} (${cname(o.bottomC)})`],['겉옷',o.outer==='none'?'없음':`${LBL[o.outer]} (${cname(o.outerC)})`],['신발',`${LBL[o.shoes]} (${cname(o.shoesC)})`]].forEach(([a,b])=>{
+    s+=T(300,y,14,a,'font-weight="700" fill="#7b6f77"')+T(340,y,14,b.length>21?b.slice(0,20)+'…':b);y+=23;});
+  y+=14;s+=T(296,y,17,'📊 효과 미터','font-weight="700" fill="#c94a60"');y+=14;
+  const rel={};S.goals.forEach(g=>GOAL_METER[g].forEach(m=>rel[m]=(rel[m]===undefined?true:rel[m])&&goalMet(g,E)));
+  [['V','세로로 길어 보임'],['S','어깨·상체 강조'],['L','하체 강조'],['F','얼굴 갸름해 보임']].forEach(([k,n])=>{
+    const col=rel[k]===true?'#22a06b':rel[k]===false?'#f2a6b4':'#bdb1b9';
+    s+=T(300,y+14,13,n)+T(566,y+14,13,String(E[k]),'text-anchor="end" font-weight="700"');
+    s+=`<rect x="300" y="${y+20}" width="266" height="10" rx="5" fill="#f1e8e3"/><rect x="300" y="${y+20}" width="${f1(266*E[k]/100)}" height="10" rx="5" fill="${col}"/>`;y+=40;});
+  const topI=IMP.reduce((a,b)=>E[b[0]]>E[a[0]]?b:a);
+  s+=T(300,y+14,14,`✨ 인상: ${topI[1]} 쪽`,'font-weight="700"');
+  s+=T(300,y+36,13,`부드러움 ${E.soft} · 활동적 ${E.active} · 단정 ${E.neat}`,'fill="#7b6f77"');y+=50;
+  s+=`<rect x="24" y="666" width="552" height="150" rx="20" fill="#ffffff"/>`+T(44,694,16,'✏️ 나의 코디 설명','font-weight="700" fill="#c94a60"');
+  const lines=wrapText(S.desc||'(설명을 써 보세요)',34).slice(0,5);
+  lines.forEach((l,i)=>s+=T(44,722+i*21,15,l));
+  s+=T(300,840,13,'몸을 고치는 게 아니라, 옷의 효과를 알고 나를 표현해요','text-anchor="middle" fill="#7b6f77"');
+  return s+'</svg>';}
+function renderChecklist(){
+  const t=S.desc||'',found=KEYWORDS.filter(w=>t.includes(w)),len=t.replace(/\s/g,'').length;
+  $('#checkList').innerHTML=`<li class="${found.length>=2?'ok':''}">디자인 요소 낱말을 2개 이상 썼어요 (${found.length}개)<div class="words">${KEYWORDS.map(w=>`<span class="${found.includes(w)?'on':''}">${w}</span>`).join('')}</div></li>
+    <li class="${len>=30?'ok':''}">30자 이상 썼어요 (지금 ${len}자)</li>
+    <li class="${/보이|보여|효과|목표|인상|균형/.test(t)?'ok':''}">어떤 효과(목표)를 위한 것인지 썼어요</li>`;}
+function renderCard(){
+  $('#nameIn').value=S.name;$('#descIn').value=S.desc;
+  ['cur','A','B'].forEach(k=>{const b=$('#use'+(k==='cur'?'Cur':k));b.classList.toggle('on',S.cardSrc===k);b.disabled=k!=='cur'&&!S[k];});
+  renderChecklist();$('#cardPrev').innerHTML=cardSVG();}
+$('#nameIn').addEventListener('input',e=>{S.name=e.target.value;$('#cardPrev').innerHTML=cardSVG();});
+$('#descIn').addEventListener('input',e=>{S.desc=e.target.value;renderChecklist();$('#cardPrev').innerHTML=cardSVG();});
+$('#useCur').onclick=()=>{S.cardSrc='cur';renderCard();};
+$('#useA').onclick=()=>{S.cardSrc='A';renderCard();};
+$('#useB').onclick=()=>{S.cardSrc='B';renderCard();};
+$('#savePng').onclick=()=>{
+  const svg=cardSVG(),img=new Image();
+  img.onload=()=>{const cv=document.createElement('canvas');cv.width=1200;cv.height=1720;const ctx=cv.getContext('2d');ctx.fillStyle='#ffffff';ctx.fillRect(0,0,1200,1720);ctx.drawImage(img,0,0,1200,1720);
+    try{cv.toBlob(b=>{if(!b){toast('이미지를 만들지 못했어요. 화면을 캡처해서 저장해 주세요.');return;}const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download=(S.name||'나의')+'_코디카드.png';document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(a.href),3000);toast('🖼 코디 카드를 이미지로 저장했어요!');},'image/png');}
+    catch(err){toast('이 브라우저에서는 저장이 어려워요. 화면을 캡처해서 저장해 주세요.');}};
+  img.onerror=()=>toast('이미지를 만들지 못했어요. 화면을 캡처해서 저장해 주세요.');
+  img.src='data:image/svg+xml;charset=utf-8,'+encodeURIComponent(svg);};
+$('#restart').onclick=()=>{if(!confirm('처음부터 다시 시작할까요? 지금까지 만든 아바타와 코디가 모두 지워져요.'))return;S=defaultState();UI.tab='top';LAST=null;go('start');};
+
+/* ========== 시작 ========== */
+renderSteps();renderStart();
+</script>
+</body>
+</html>
